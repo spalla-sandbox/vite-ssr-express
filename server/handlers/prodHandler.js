@@ -23,7 +23,7 @@ const ssrManifest = await fs.readFile(path.resolve('.', 'dist/client/ssr-manifes
     try {
       const url = req.originalUrl.replace(getBaseURL(), '')
       const render = (await import(path.resolve('.', 'dist/server/entry-server.js'))).render
-      const rendered = await render(url, ssrManifest)
+      const rendered = await render(url, { req, res, ssrManifest })
 
       const html = templateHtml
         .replace(`<!--app-head-->`, rendered.head ?? '')

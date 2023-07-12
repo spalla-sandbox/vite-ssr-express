@@ -24,7 +24,7 @@ export default async function developmentHandler(app) {
       const templateFile = await fs.readFile(path.resolve('.', 'index.html'), 'utf-8')
       const template = await vite.transformIndexHtml(url, templateFile)
       const render = (await vite.ssrLoadModule(path.resolve('.', 'src/entry-server.ts'))).render
-      const rendered = await render(url)
+      const rendered = await render(url, { req, res })
 
       const html = template
         .replace(`<!--app-head-->`, rendered.head ?? '')

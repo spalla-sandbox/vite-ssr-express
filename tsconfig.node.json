@@ -7,7 +7,6 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src/entry-server.ts",
-    "src/vite-env.d.ts"
+    "src/"
   ]
 }
