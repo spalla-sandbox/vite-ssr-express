@@ -3,12 +3,6 @@ import path from 'node:path';
 import { getBaseURL, isDevelopment } from "../helpers/environment.js";
 
 export default async function productionHandler(app) {
-
-  // Skip if is production build
-  if (isDevelopment()) {
-    return (_req, _res, next) => next();
-  }
-
   // Add production middlewares
   const compression = (await import('compression')).default
   const sirv = (await import('sirv')).default
