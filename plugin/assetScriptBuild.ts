@@ -26,7 +26,7 @@ function getAssetsManifest() {
   return fs.readFileSync('output/client/manifest.json').toString()
 }
 
-export default function build(): PluginOption {
+export default function assetScriptBuild(): PluginOption {
   let envConfig: ConfigEnv | undefined;
   let manifest: Object;
   return {
@@ -40,12 +40,14 @@ export default function build(): PluginOption {
       // If is client build
       if (!envConfig?.ssrBuild) {
         getPages().forEach(({ code }) => {
-          const assetsSrc = [...code.matchAll(/@asset\((.*)\)/gmi)]
+          const assetsSrc = [...code.matchAll(ASSET_REGEX)]
           assetsSrc.forEach(([_, src]) => {
-            this.emitFile({
-              id: src,
-              type: 'chunk',
-            })
+            if (src.endsWith('.ts')) {
+              this.emitFile({
+                id: src,
+                type: 'chunk',
+              })
+            }
           })
         })
       } else {
@@ -54,9 +56,13 @@ export default function build(): PluginOption {
     },
     transform(code, id, options) {
       if (options?.ssr) {
-        const replaced = code.replace(ASSET_REGEX, (_, g1) => {          
-          const src = `src="${withLeadingSlash(manifest[g1].file)}"`
-          return src
+        const replaced = code.replace(ASSET_REGEX, (_string, g1) => {
+          if (g1.endsWith('.ts')) {
+            const file = withLeadingSlash(manifest[g1].file)
+            const src = `src="${file}"`
+            return src
+          }
+          return _string
         })
 
         return {
