@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import VitePlugin from "./plugin/vite-plugin";
+import VitePlugin from "./plugin";
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import commonjs from "@rollup/plugin-commonjs";
