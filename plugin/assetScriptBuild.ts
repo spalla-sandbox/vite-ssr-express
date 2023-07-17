@@ -30,7 +30,7 @@ export default function assetScriptBuild(): PluginOption {
   let envConfig: ConfigEnv | undefined;
   let manifest: Object;
   return {
-    name: 'vite-build-plugin',
+    name: 'vite-script-build-plugin',
     enforce: 'post',
     apply: 'build',
     config(_, env) {
@@ -70,8 +70,5 @@ export default function assetScriptBuild(): PluginOption {
         }
       }
     },
-    outputOptions(options) {
-      return null;
-    }
   }
 }

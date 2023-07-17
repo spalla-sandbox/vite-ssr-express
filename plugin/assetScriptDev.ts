@@ -4,7 +4,7 @@ import { withLeadingSlash } from 'ufo'
 export default function assetScriptDev(): PluginOption {
   let config: ResolvedConfig
   return {
-    name: 'vite-dev-plugin',
+    name: 'vite-script-dev-plugin',
     apply: 'serve',
     configResolved(resolvedConfig) {
       // store the resolved config
