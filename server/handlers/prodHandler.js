@@ -11,13 +11,12 @@ export default async function productionHandler(app) {
 
   // Cached production assets
 const templateHtml = await fs.readFile(path.resolve('.', 'output/client/index.html'), 'utf-8')
-const ssrManifest = await fs.readFile(path.resolve('.', 'output/server/manifest.json'), 'utf-8')
 
   return async (req, res) => {
     try {
       const url = req.originalUrl.replace(getBaseURL(), '')
       const render = (await import(path.resolve('.', 'output/server/main.js'))).render
-      const rendered = await render(url, { req, res, ssrManifest })
+      const rendered = await render(url, { req, res })
 
       const html = templateHtml
         .replace(`<!--app-head-->`, rendered.head ?? '')

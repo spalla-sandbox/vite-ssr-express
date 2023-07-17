@@ -15,7 +15,7 @@ export default async function developmentHandler(app) {
   return async (req, res) => {
     try {
       const url = req.originalUrl.replace(getBaseURL(), '')
-      const templateFile = await fs.readFile(path.resolve('.', 'src/index.html'), 'utf-8')
+      const templateFile = await fs.readFile(path.resolve('.', 'index.html'), 'utf-8')
       const render = (await vite.ssrLoadModule(path.resolve('.', 'src/main.ts'))).render
       const rendered = await render(url, { req, res })
       
