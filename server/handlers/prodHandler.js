@@ -7,16 +7,16 @@ export default async function productionHandler(app) {
   const compression = (await import('compression')).default
   const sirv = (await import('sirv')).default
   app.use(compression())
-  app.use(getBaseURL(), sirv('./dist/client', { extensions: [] }))
+  // app.use(getBaseURL(), sirv('./dist/client', { extensions: [] }))
 
   // Cached production assets
-const templateHtml = await fs.readFile(path.resolve('.', 'dist/client/index.html'), 'utf-8')
-const ssrManifest = await fs.readFile(path.resolve('.', 'dist/client/ssr-manifest.json'), 'utf-8')
+const templateHtml = await fs.readFile(path.resolve('.', 'output/client/index.html'), 'utf-8')
+const ssrManifest = await fs.readFile(path.resolve('.', 'output/server/manifest.json'), 'utf-8')
 
   return async (req, res) => {
     try {
       const url = req.originalUrl.replace(getBaseURL(), '')
-      const render = (await import(path.resolve('.', 'dist/server/entry-server.js'))).render
+      const render = (await import(path.resolve('.', 'output/server/main.js'))).render
       const rendered = await render(url, { req, res, ssrManifest })
 
       const html = templateHtml

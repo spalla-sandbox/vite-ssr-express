@@ -1,6 +1,5 @@
 import { createRouter } from "radix3";
 import { scanPages } from "./scan";
-import { lookup } from "dns";
 
 export default async function getRouter() {
   const router = createRouter()
