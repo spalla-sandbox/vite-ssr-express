@@ -8,7 +8,7 @@ export default function assetStyleDev(): PluginOption {
     transform(code, id) {
       return {
         code: code.replace(/<style(.*)@asset\((.*)\)(.*)><\/style>/gmi, (_string, g1, g2, g3) => {
-          return `<style ${g1.trim()} ${g3.trim()}>${fs.readFileSync(g2).toString()}</style>`
+          return `<style ${g1.trim()} ${g3.trim()}>${fs.readFileSync(g2, 'utf-8')}</style>`
         })
       }
     }

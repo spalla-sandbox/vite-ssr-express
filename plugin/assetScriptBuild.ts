@@ -10,7 +10,7 @@ function getPages() {
   const pages = pagesPaths.map((pagePath) => {
     return {
       src: pagePath,
-      code: fs.readFileSync(pagePath).toString()
+      code: fs.readFileSync(pagePath, 'utf-8')
     }
   })
   return pages
@@ -23,7 +23,7 @@ function getAssetsManifest() {
       Please, build client before server to generate the assets manifest
     `)
   }
-  return fs.readFileSync('output/client/manifest.json').toString()
+  return fs.readFileSync('output/client/manifest.json', 'utf-8')
 }
 
 export default function assetScriptBuild(): PluginOption {

@@ -12,14 +12,14 @@ function getPages() {
   const pages = pagesPaths.map((pagePath) => {
     return {
       src: pagePath,
-      code: fs.readFileSync(pagePath).toString()
+      code: fs.readFileSync(pagePath, 'utf-8')
     }
   })
   return pages
 }
 
 function getAssetsManifest() {
-  return fs.readFileSync('output/client/manifest.json').toString()
+  return fs.readFileSync('output/client/manifest.json', 'utf-8')
 }
 
 export default function assetStyleBuild(): PluginOption {
@@ -52,7 +52,6 @@ export default function assetStyleBuild(): PluginOption {
       }
     },
     buildStart() {
-      // Emit css only for server
       if (!envConfig?.ssrBuild) {
         getPages().forEach(({ code }) => {
           const assetsSrc = [...code.matchAll(ASSET_REGEX)]
@@ -73,7 +72,7 @@ export default function assetStyleBuild(): PluginOption {
       if (options?.ssr) {
         const replaced = code.replace(ASSET_REGEX, (_string, g1, g2, g3) => {
           if (g2.endsWith('.css')) {
-            const source = fs.readFileSync(`output/client/${manifest[g2].file}`).toString()
+            const source = fs.readFileSync(`output/client/${manifest[g2].file}`, 'utf-8')
             return `<style ${g1.trim()} ${g3.trim()}>${source}</style>`
           }
           return _string
