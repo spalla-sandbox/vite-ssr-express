@@ -5,7 +5,6 @@ import { getBaseURL, isDevelopment } from "../helpers/environment.js";
 export default async function productionHandler(app) {
   // Add production middlewares
   const compression = (await import('compression')).default
-  const sirv = (await import('sirv')).default
   app.use(compression())
 
   // Cached production assets

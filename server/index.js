@@ -1,6 +1,7 @@
 import express from 'express'
 import { getPort } from './helpers/environment.js'
 import defineHandlers from './handlers/index.js'
+import { Server } from 'http'
 
 const port = getPort()
 
@@ -11,6 +12,6 @@ const app = express()
 defineHandlers(app)
 
 // Start http server
-app.listen(port, () => {
+export const server = app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`)
 })
