@@ -1,16 +1,12 @@
-import { Page, PageContent, PageContext } from "./types";
+import { Page } from "./types";
 
-export async function definePage(page: Page) {
-  return async (params: Record<string, any>, context?: PageContext): Promise<PageContent> => {
-    const content = await Promise.resolve(page(params, context));
-    return { ...content, html: content.html + '<b>Injetado</b>' }
-  }
+export function definePage(page: Page) {
+  return page
 }
 
-export async function defineAuthPage(page: Page) {
-  return async (params: Record<string, any>, context?: PageContext): Promise<PageContent> => {
-    // Verify token from context.req
-    const content = await Promise.resolve(page(params, { ...context, extra: context.req.headers }));
-    return content
-  }
+export function defineAuthPage(page: Page) {
+  return definePage((props, context) => {
+    context.res.redirect('/forbidden');
+    return page(props, context)
+  })
 }

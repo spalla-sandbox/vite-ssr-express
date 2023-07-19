@@ -2,7 +2,7 @@ import { definePage } from "../../page"
 
 function Index() {
   return {
-    html: '<h1>PArceiros</h1>'
+    body: `<h1>PArceiros</h1>`
   }
 }
 

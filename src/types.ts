@@ -1,10 +1,19 @@
 import { Request, Response } from "express"
 
-export declare type Page<T = any> = (props?: T, context?: PageContext, ...extra: any[]) => PageContent | Promise<PageContent>;
+type StringLiteral = string;
+
+type TemplateValue = StringLiteral | StringLiteral[];
+
+export interface Page  {
+  (props?: Record<string, any>, context?: PageContext): PageContent | Promise<PageContent>;
+}
 
 export declare type PageContent = {
-  head?: string;
-  html: string;
+  htmlAttributes?: TemplateValue;
+  head?: TemplateValue;
+  bodyAttributes?: TemplateValue;
+  body?: TemplateValue;
+  footer?: TemplateValue;
 }
 
 export declare type PageContext = {

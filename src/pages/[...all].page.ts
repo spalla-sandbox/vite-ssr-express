@@ -1,8 +1,10 @@
 import { definePage } from "../page"
+import { PageContext } from "../types"
 
-function NotFound() {
+function NotFound(_, context: PageContext) {
+  context.res.status(404)
   return {
-    html: `<h1>Not Found</h1>`
+    body: `<h1>Not Found</h1>`
   }
 }
 
