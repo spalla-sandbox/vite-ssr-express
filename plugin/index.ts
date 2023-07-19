@@ -1,13 +1,9 @@
-import assetScriptBuild from "./assetScriptBuild";
-import assetScriptDev from "./assetScriptDev";
-import assetStyleBuild from "./assetStyleBuild";
-import assetStyleDev from "./assetStyleDev";
+import assetBuild from "./assetBuild";
+import assetDev from "./assetDev";
 
 export default function VitePlugin() {
   return [
-    assetScriptDev(),
-    assetStyleDev(),
-    assetScriptBuild(),
-    assetStyleBuild(),
+    assetDev(),
+    assetBuild(),
   ]
 }
