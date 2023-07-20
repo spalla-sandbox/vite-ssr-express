@@ -19,6 +19,12 @@ export default function assetBuild(): PluginOption {
     config(_, env) {
       envConfig = env
     },
+    options(options) {
+      if (!envConfig?.ssrBuild) {
+        options.input = undefined
+        return options
+      }
+    },
     outputOptions(options) {
       return {
         ...options,
