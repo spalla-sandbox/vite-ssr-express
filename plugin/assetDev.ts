@@ -8,6 +8,7 @@ export default function assetDev(): PluginOption {
     transform(code) {
       let transformed = transformDevScript(code)
       transformed = transformDevCss(transformed)
+      // console.log('\n\n', transformed, '\n\n\n')
       return {
         code: transformed
       }

@@ -1,7 +1,5 @@
 import { withBase, withLeadingSlash, withoutTrailingSlash } from "ufo";
 
-export const GLOB_SCAN_PATTERN = "**/*.{js,mjs,cjs,ts,mts,cts,tsx,jsx}";
-
 export async function scanPages(prefix = '/') {
   // Use import.meta.glob from vite, to track files dinamically imported
   // and later generate chunks on build

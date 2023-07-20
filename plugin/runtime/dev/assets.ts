@@ -1,17 +1,24 @@
 import fs from 'fs'
 import { withLeadingSlash } from "ufo"
 
-export function transformDevScript(code) {
-  return code.replace(/@asset\((.*)\)/gmi, (_string, group) => {
-    if (group.endsWith('.ts')) {
-      return `type="module" src="${withLeadingSlash(group)}"`
+function log(...text) {
+  console.log('\n\n\n', ...text, '\n\n\n')
+}
+
+const SCRIPT_REGEX = /(['"`]?)<script(.*)@asset\((.*?)\)(.*)><\\\/script>(['"`]?)/gmi
+const STYLE_REGEX = /(['"`]?)<style(.*)@asset\((.*)\)(.*)><\/style>(['"`]?)/gmi
+
+export function transformDevScript(code: string) {
+  return code.replace(SCRIPT_REGEX, (_string, _g1, g2, g3, g4) => {
+    if (g3.endsWith('.ts')) {
+      return `\`<script ${g2.trim()} ${g4.trim()} type="module" src="${withLeadingSlash(g3)}"></script>\``
     }
     return _string
   })
 }
 
 export function transformDevCss(code) {
-  return code.replace(/<style(.*)@asset\((.*)\)(.*)><\/style>/gmi, (_string, g1, g2, g3) => {
-    return `<style ${g1.trim()} ${g3.trim()}>${fs.readFileSync(g2, 'utf-8')}</style>`
+  return code.replace(STYLE_REGEX, (_string, _g1, g2, g3, g4) => {
+    return `\`<style ${g2.trim()} ${g4.trim()}>${fs.readFileSync(g3, 'utf-8')}</style>\``
   })
 }
