@@ -18,13 +18,13 @@ describe('basic', async () => {
   afterAll(async () => {
     await browser.close()
     await new Promise<void>((resolve, reject) => {
+      server.closeAllConnections()
       server.close(error => error ? reject(error) : resolve())
     })
   })
 
-  // TODO make more stable
-  test('should have the correct title', async () => {
-      await page.goto(serverUrl(), { waitUntil: 'domcontentloaded' })
+  test('should run javascript', async () => {
+      await page.goto(serverUrl())
       const button = (await page.$('button'))!
       expect(button).toBeTruthy()
 
@@ -35,4 +35,22 @@ describe('basic', async () => {
       text = await page.evaluate(btn => btn.textContent, button)
       expect(text).toBe('Clicked 1 time(s)')
   }, 60_000)
+
+  test('should redirect', async () => {
+    await page.goto(serverUrl('/descontos'))
+    expect(page.url()).not.toBe(serverUrl('/descontos'))
+    expect(page.url()).toBe(serverUrl('/forbidden'))
+  })
+
+  test('shound apply style', async () => {
+    await page.goto(serverUrl());
+    const button = (await page.$('button'))!
+
+    const styles = await page.evaluate(btn => {
+      return JSON.parse(JSON.stringify(getComputedStyle(btn)))
+    }, button);
+
+
+    expect(styles.backgroundColor).toBe('rgb(16, 149, 193)')
+  })
 })
