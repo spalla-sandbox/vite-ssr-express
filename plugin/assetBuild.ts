@@ -36,6 +36,10 @@ export default function assetBuild(): PluginOption {
           emitContents(this, code)
         })
       }
+    },
+    writeBundle(_options, bundle) {
+      if (bundle['manifest.json'])
+        console.log(bundle['manifest.json'])
     }
   }
 }

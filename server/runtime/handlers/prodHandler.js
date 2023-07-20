@@ -1,7 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs'
-import { getBaseURL, isProduction } from "../../helpers/environment.js";
-import { transform } from '../transform.js';
+import { getBaseURL, isProduction } from "../helpers/environment.js";
+import { transform } from '../helpers/transform.js';
 
 const manifest = isProduction() ? JSON.parse(fs.readFileSync(path.resolve('.', 'output/client/manifest.json'), 'utf-8')) : '{}'
 

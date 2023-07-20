@@ -1,5 +1,5 @@
 import express from 'express';
-import { isDevelopment, isProduction } from '../helpers/environment.js';
+import { isDevelopment, isProduction } from './helpers/environment.js';
 import developmentHandler from './handlers/devHandler.js';
 import productionHandler from './handlers/prodHandler.js';
 

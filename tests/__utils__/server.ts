@@ -1,5 +1,5 @@
 import { server } from '../../server'
-import { getPort } from '../../server/helpers/environment';
+import { getPort } from '../../server/runtime/helpers/environment';
 
 export function getServer() {
   return server;  

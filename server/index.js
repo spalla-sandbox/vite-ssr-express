@@ -1,5 +1,5 @@
 import express from 'express'
-import { getPort } from './helpers/environment.js'
+import { getPort } from './runtime/helpers/environment.js'
 import defineHandlers from './runtime/index.js'
 
 const port = getPort()
