@@ -1,4 +1,4 @@
-import { definePage } from "../../page"
+import { defineAuthPage } from "../../page"
 
 function Index() {
   return {
@@ -6,4 +6,4 @@ function Index() {
   }
 }
 
-export default definePage(Index)
+export default defineAuthPage(Index)

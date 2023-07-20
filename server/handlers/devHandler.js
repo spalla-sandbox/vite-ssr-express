@@ -11,15 +11,18 @@ export default async function developmentHandler(app) {
   })
   app.use(vite.middlewares)
 
-  return async (req, res) => {
+  return async (req, res, next) => {
     try {
       const url = req.originalUrl.replace(getBaseURL(), '')
       const render = (await vite.ssrLoadModule(path.resolve('.', 'src/main.ts'))).render
       const page = await render(url, { req, res })
-      
-      const html = await vite.transformIndexHtml(url, page)
-      
-      res.set({ 'Content-Type': 'text/html' }).end(html)
+
+      if (!res.headersSent) {
+        const html = await vite.transformIndexHtml(url, page || '')
+        res.set({ 'Content-Type': 'text/html' }).end(html)
+      } else {
+        next()
+      }
     } catch (e) {
       vite.ssrFixStacktrace(e)
       console.log(e.stack)

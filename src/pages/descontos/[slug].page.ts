@@ -1,4 +1,4 @@
-import { defineAuthPage, definePage } from "../../page"
+import { definePage } from "../../page"
 import { PageContext } from "../../types"
 
 type PartnerProps = {
@@ -18,4 +18,4 @@ async function Partner(props: PartnerProps, context: PageContext) {
   }
 }
 
-export default defineAuthPage(Partner)
+export default definePage(Partner)

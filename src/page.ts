@@ -6,7 +6,6 @@ export function definePage(page: Page) {
 
 export function defineAuthPage(page: Page) {
   return definePage((props, context) => {
-    context.res.redirect('/forbidden');
-    return page(props, context)
+    return context.res.redirect('/forbidden');
   })
 }

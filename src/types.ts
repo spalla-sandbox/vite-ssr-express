@@ -5,7 +5,7 @@ type StringLiteral = string;
 type TemplateValue = StringLiteral | StringLiteral[];
 
 export interface Page  {
-  (props?: Record<string, any>, context?: PageContext): PageContent | Promise<PageContent>;
+  (props?: Record<string, any>, context?: PageContext): PageContent | Promise<PageContent> | void;
 }
 
 export declare type PageContent = {

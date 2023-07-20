@@ -10,13 +10,17 @@ export async function render(url: string, context: PageContext) {
   const router = await getRouter()
   const match = router.lookup(`/${url}`)
   const page = await match.handler()
+  const content = await page(match.params, context)
+
+  if (!content) return;
+
   const {
     htmlAttributes,
     head,
     bodyAttributes,
     body,
     footer
-  } = await page(match.params, context)
+  } = content;
 
   const html = `
     <!DOCTYPE html>
