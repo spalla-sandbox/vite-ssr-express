@@ -8,12 +8,12 @@ type PartnerProps = {
 async function Partner(props: PartnerProps, context: PageContext) {
   return {
     head: [
-      `<script @asset(src/pages/descontos/script.ts) defer></script>`,
-      `<style type="text/css" @asset(src/pages/descontos/style.css)></style>`
+      `<script @source(src/pages/descontos/script.ts) defer></script>`,
+      `<style type="text/css">@content(src/pages/descontos/style.css)</style>`
     ]
     ,
     body: `
-      <h1>Parceiro ${JSON.stringify(props, null, 2)}</h1>
+      <pre>Parceiro ${JSON.stringify(props, null, 2)}</pre>
     `
   }
 }

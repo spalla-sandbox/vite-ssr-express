@@ -1,5 +1,9 @@
 import path from 'node:path';
-import { getBaseURL } from "../helpers/environment.js";
+import fs from 'node:fs'
+import { getBaseURL, isProduction } from "../../helpers/environment.js";
+import { transform } from '../transform.js';
+
+const manifest = isProduction() ? JSON.parse(fs.readFileSync(path.resolve('.', 'output/client/manifest.json'), 'utf-8')) : '{}'
 
 export default async function productionHandler(app) {
   // Add production middlewares
@@ -12,7 +16,8 @@ export default async function productionHandler(app) {
       const render = (await import(path.resolve('.', 'output/server/main.js'))).render
       const html = await render(url, { req, res })
       if (!res.headersSent) {
-        res.set({ 'Content-Type': 'text/html' }).end(html)
+        const transformed = transform(html, manifest);
+        res.set({ 'Content-Type': 'text/html' }).end(transformed)
       } else {
         next()
       }

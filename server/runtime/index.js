@@ -1,7 +1,7 @@
 import express from 'express';
 import { isDevelopment, isProduction } from '../helpers/environment.js';
-import developmentHandler from './devHandler.js';
-import productionHandler from './prodHandler.js';
+import developmentHandler from './handlers/devHandler.js';
+import productionHandler from './handlers/prodHandler.js';
 
 export default async function defineHandlers(app) {
   if (isDevelopment()) {

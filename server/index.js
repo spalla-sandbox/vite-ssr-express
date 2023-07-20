@@ -1,7 +1,6 @@
 import express from 'express'
 import { getPort } from './helpers/environment.js'
-import defineHandlers from './handlers/index.js'
-import { Server } from 'http'
+import defineHandlers from './runtime/index.js'
 
 const port = getPort()
 

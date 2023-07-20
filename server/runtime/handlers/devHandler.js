@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { getBaseURL } from "../helpers/environment.js";
+import { getBaseURL } from "../../helpers/environment.js";
 
 export default async function developmentHandler(app) {
   // Create and add Vite middleware

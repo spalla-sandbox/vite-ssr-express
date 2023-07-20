@@ -2,16 +2,12 @@ import { ConfigEnv, PluginOption } from 'vite'
 import { getPages } from './runtime/build/pages'
 import {
   assetName,
-  getAssetsManifest,
-  emitCss,
-  emitScripts,
-  transformCss,
-  transformScript
+  emitContents,
+  emitSources
 } from './runtime/build/assets'
 
 export default function assetBuild(): PluginOption {
   let envConfig: ConfigEnv | undefined;
-  let manifest: Object;
   return {
     name: 'vite-script-build-plugin',
     enforce: 'post',
@@ -36,21 +32,10 @@ export default function assetBuild(): PluginOption {
     buildStart() {
       if (!envConfig?.ssrBuild) {
         getPages().forEach(({ code }) => {
-          emitScripts(this, code)
-          emitCss(this, code)
+          emitSources(this, code)
+          emitContents(this, code)
         })
-      } else {
-        manifest = getAssetsManifest()
       }
-    },
-    transform(code, _id, options) {
-      if (options?.ssr) {
-        let transformed = transformScript(code, manifest)
-        transformed = transformCss(transformed, manifest)
-        return {
-          code: transformed
-        }
-      }
-    },
+    }
   }
 }
