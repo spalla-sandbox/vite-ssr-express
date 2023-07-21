@@ -8,6 +8,21 @@ Este é um repositório de experimento de uso do [Vite](https://vitejs.dev/) no 
 
 Vite faz uso do [Rollup e ESBuild](https://vitejs.dev/guide/why.html)
 
+# Execução
+
+## Desenvolvimento
+
+Rodar `yarn dev`
+
+## Produção
+
+Rodar `yarn build` e em seguida `yarn preview`
+
+
+## Testes
+
+Rodar `yarn test` (Para sair basta apertar 'q')
+
 # Como funciona
 
 O Vite é usado apenas no modo de desenvolvimento e na hora de fazer um build para produção.
