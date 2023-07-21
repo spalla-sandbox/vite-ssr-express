@@ -13,7 +13,8 @@ export function emitSources(pluginContext: PluginContext, code: string) {
     if (ASSETS_EXT.includes(path.extname(src))) {
       pluginContext.emitFile({
         source: fs.readFileSync(src),
-        name: path.basename(src),
+        name: src,
+        fileName: `assets/${path.basename(src)}`,
         type: 'asset',
       })
     } else {
