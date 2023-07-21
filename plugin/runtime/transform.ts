@@ -1,5 +1,4 @@
 import fs from 'fs'
-import { parseModule, generateCode } from 'magicast'
 import { withLeadingSlash } from "ufo"
 
 const SOURCE_REGEX = /@source\((.*?)\)/gmi
