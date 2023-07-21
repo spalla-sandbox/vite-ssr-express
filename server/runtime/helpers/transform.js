@@ -6,7 +6,8 @@ const SOURCE_REGEX = /@source\((.*?)\)/gmi
 const CONTENT_REGEX = /@content\((.*?)\)/gmi
 
 export function transformSource(code, manifest) {
-  return code.replace(SOURCE_REGEX, (_string, src) => {
+  return code.replace(SOURCE_REGEX, (_string, params) => {
+    const [src] = params.split(',')
     if (manifest[src].url) {
       return `src="${withLeadingSlash(manifest[src].url)}"`
     }

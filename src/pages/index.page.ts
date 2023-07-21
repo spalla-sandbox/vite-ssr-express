@@ -9,6 +9,7 @@ function Index() {
     body: `
       <h1>Index</h1>
       <button>Botão 0</button>
+      <img @source(src/assets/images/placeholder.gif, srcset) />
     `
   }
 }
