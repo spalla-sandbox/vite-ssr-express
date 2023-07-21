@@ -8,8 +8,8 @@ type PartnerProps = {
 async function Partner(props: PartnerProps, context: PageContext) {
   return {
     head: [
-      `<script @source(src/pages/descontos/script.ts) defer></script>`,
-      `<style type="text/css">@content(src/pages/descontos/style.css)</style>`
+      `<script @source(src/assets/scripts/script.ts) defer></script>`,
+      `<style type="text/css">@content(src/assets/styles/style.css)</style>`
     ]
     ,
     body: `

@@ -75,6 +75,7 @@ export default definePage(() => {
 
 O que uma página pode retornar está descrito no `type PageContent` em `types.ts`:
 
+
 ```ts
 export declare type PageContent = {
   htmlAttributes?: TemplateValue; // Atributos adicionais a <html>
@@ -82,6 +83,14 @@ export declare type PageContent = {
   bodyAttributes?: TemplateValue; // Atributos adicionais ao <body>
   body?: TemplateValue; // Conteúdo do body
   footer?: TemplateValue; // Conteúdo adicional no final do <body> e antes do </body>
+}
+```
+
+OBS: Cada atributo de PageContent deve ser retornado com template strings. É uma limitação do plugin quando vai substituir código. E usar template string ajuda a contornar essa limitação
+
+```
+return {
+  head: `<script ...>`
 }
 ```
 
