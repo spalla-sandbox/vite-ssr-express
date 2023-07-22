@@ -1,9 +1,17 @@
+import { useServerSeoMeta } from 'unhead';
 import { definePage } from '../page';
 
 function Index() {
+  useServerSeoMeta({
+    title: 'Seo',
+    description: 'Um exemplo de nova aplicação',
+    ogDescription: 'Ainda dá pra brincar',
+    ogTitle: 'Vite',
+    ogImage: 'https://example.com/image.png',
+    twitterCard: 'summary_large_image',
+  });
   return {
     head: [
-      `<title>SSR + Vite + Express</title>`,
       `@script(src/assets/scripts/index.script.ts, defer)`,
       `<style type="text/css">@content(src/assets/styles/base.css)</style>`,
     ],

@@ -1,3 +1,5 @@
+import { renderSSRHead } from '@unhead/ssr';
+import { createHead, useServerHead } from 'unhead';
 import getRouter from './router';
 import { PageContext } from './types';
 
@@ -6,7 +8,23 @@ function renderSnippet(snippet: string | string[]) {
   return snippet?.toString() || '';
 }
 
+function setupDefaults() {
+  useServerHead({
+    htmlAttrs: {
+      lang: 'pt', // Change to your language
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    ],
+    titleTemplate: 'POC - %s',
+    title: 'Vite + Express + SSR',
+  });
+}
+
 export async function render(url: string, context: PageContext) {
+  const unhead = createHead();
+  setupDefaults();
   const router = await getRouter();
   const match = router.lookup(`/${url}`);
   const page = await match.handler();
@@ -16,15 +34,16 @@ export async function render(url: string, context: PageContext) {
 
   const { htmlAttributes, head, bodyAttributes, body, footer } = content;
 
+  const unheadPayload = await renderSSRHead(unhead);
+
   const html = `
     <!DOCTYPE html>
-    <html lang="pt" ${renderSnippet(htmlAttributes)}>
+    <html ${renderSnippet(htmlAttributes)} ${unheadPayload.htmlAttrs}>
       <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         ${renderSnippet(head)}
+        ${unheadPayload.headTags}
       </head>
-      <body ${renderSnippet(bodyAttributes)}>
+      <body ${renderSnippet(bodyAttributes)} ${unheadPayload.bodyAttrs}>
         ${renderSnippet(body)}
         ${renderSnippet(footer)}
       </body>
