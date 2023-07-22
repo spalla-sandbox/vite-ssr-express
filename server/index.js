@@ -2,6 +2,7 @@ import express from 'express'
 import { getPort } from './runtime/helpers/environment.js'
 import defineHandlers from './runtime/index.js'
 
+// Server port
 const port = getPort()
 
 // Create http server

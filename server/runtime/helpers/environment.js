@@ -7,7 +7,7 @@ export function isDevelopment() {
 }
 
 export function getBaseURL() {
-  return process.env.BASE || '/'
+  return process.env.BASE_URL || '/'
 }
 
 export function getPort() {

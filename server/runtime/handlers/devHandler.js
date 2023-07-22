@@ -1,6 +1,13 @@
 import path from 'node:path';
 import { getBaseURL } from "../helpers/environment.js";
+import { transform } from '../helpers/transform.js';
 
+/**
+ * Handle dev envinronment requests
+ * Injects Vite client resources and transform page
+ * @param {Express} app Express instance
+ * @returns 
+ */
 export default async function developmentHandler(app) {
   // Create and add Vite middleware
   const { createServer } = await import('vite')
@@ -8,6 +15,7 @@ export default async function developmentHandler(app) {
     server: { middlewareMode: true },
     appType: 'custom',
     base: getBaseURL(),
+    
   })
   app.use(vite.middlewares)
 
@@ -18,7 +26,8 @@ export default async function developmentHandler(app) {
       const page = await render(url, { req, res })
 
       if (!res.headersSent) {
-        const html = await vite.transformIndexHtml(url, page || '')
+        const transformed = transform(page);
+        const html = await vite.transformIndexHtml(url, transformed || '')
         res.set({ 'Content-Type': 'text/html' }).end(html)
       } else {
         next()

@@ -5,6 +5,11 @@ import { transform } from '../helpers/transform.js';
 
 const manifest = isProduction() ? JSON.parse(fs.readFileSync(path.resolve('.', 'output/client/manifest.json'), 'utf-8')) : '{}'
 
+/**
+ * Handle prod envinronment requests
+ * @param {Express} app Express instance
+ * @returns 
+ */
 export default async function productionHandler(app) {
   // Add production middlewares
   const compression = (await import('compression')).default
