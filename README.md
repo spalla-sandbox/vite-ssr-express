@@ -70,21 +70,21 @@ Se o código tiver:
 
 ```ts
 `<script @source(src/scripts/exemplo.ts)></script>`
-`<img @source(src/images/exemplo.png, srcset) />
+`<img @source(src/images/exemplo.png, srcset) />`
 ```
 
 Em desenvolvimento, resultará:
 
-```ts
-`<script src="/src/scripts/exemplo.ts" type="module"></script>`
-`<img srcset="/src/images/exemplo.png" />
+```html
+<script src="/src/scripts/exemplo.ts" type="module"></script>
+<img srcset="/src/images/exemplo.png" />
 ```
 
 Em produção, resultará:
 
-```ts
-`<script src="/assets/exemplo-4ig3t8.js"></script>`
-`<img srcset="/assets/images.png" />
+```html
+<script src="/assets/exemplo-4ig3t8.js"></script>
+<img srcset="/assets/images.png" />
 ```
 
 ## @content
@@ -103,20 +103,20 @@ Se o código tiver:
 
 Em desenvolvimento, resultará:
 
-```ts
-`<style type="text/css">
+```html
+<style type="text/css">
 body {
   padding: 8px;
 }
-</style>`
+</style>
 ```
 
 Em produção, resultará:
 
-```ts
-`<style type="text/css">
+```html
+<style type="text/css">
 body {padding: 8px;}
-</style>`
+</style>
 ```
 
 ## Rotas
