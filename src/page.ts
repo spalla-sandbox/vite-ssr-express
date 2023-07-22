@@ -1,4 +1,4 @@
-import type { Head } from '@unhead/schema';
+import type { Head, Script, Style } from '@unhead/schema';
 import { withBase, withLeadingSlash, withoutTrailingSlash } from 'ufo';
 import { useServerHead, useServerSeoMeta } from 'unhead';
 import type { UseSeoMetaInput } from 'unhead';
@@ -39,10 +39,22 @@ export function defineAuthPage(_page: Page) {
   return definePage((props, context) => context.res.redirect('/forbidden'));
 }
 
-export function definePageHead(data: Head) {
-  useServerHead(data);
+export async function definePageHead(data: Head) {
+  return useServerHead(data);
 }
 
-export function definePageMeta(data: UseSeoMetaInput) {
-  useServerSeoMeta(data);
+export async function definePageMeta(data: UseSeoMetaInput) {
+  return useServerSeoMeta(data);
+}
+
+export async function definePageScripts(scripts: Script[]) {
+  return useServerHead({
+    script: scripts,
+  });
+}
+
+export async function definePageStyles(styles: Style[]) {
+  return useServerHead({
+    style: styles,
+  });
 }

@@ -7,7 +7,8 @@ type TemplateValue = StringLiteral | StringLiteral[];
 export interface Page {
   (props?: Record<string, unknown>, context?: PageContext):
     | PageContent
-    | Promise<PageContent>
+    | string
+    | Promise<PageContent | string>
     | void;
 }
 

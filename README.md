@@ -53,6 +53,12 @@ Foi criado um plugin que ajuda no build.
 
 Durante o build, o plugin busca pelo padrão de `@source(.*)` e `@content(.*)` nos arquivos de páginas para emitir os paths para o Rollup gerar os respectivos arquivos no bundle final do `client`
 
+## definePage*()
+
+São funções presente no arquivo `src/page.ts` que ajudam a construir as páginas como inserindo meta tags, tags como `<title>`, `<script>`, etc.
+
+São baseadas no [Unhead](https://unhead.harlanzw.com/)
+
 ## @script
 
 Cria uma tag `<script>` no final da renderização da página. Deve ser usado apenas nos arquivos de páginas `*.pages.ts`

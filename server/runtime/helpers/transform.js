@@ -4,7 +4,6 @@ import { withLeadingSlash } from 'ufo';
 
 const SOURCE_REGEX = /@source\((.*?)\)/gim;
 const CONTENT_REGEX = /@content\((.*?)\)/gim;
-const SCRIPT_REGEX = /@script\((.*?)\)/gim;
 
 function getManifestResource(src, manifest, leadingSlash = true) {
   if (manifest[src].url) {
@@ -54,33 +53,13 @@ export function transformContent(code, manifest) {
 }
 
 /**
- * Transform @script(path/to/file.ts) in <script> tags
- * It accepts params as extra attributes like @script(path/file.ts,defer,async)
- * Should be used by pages scripts
- * @param {string} code Page code to be parsed
- * @returns Replace with <script src="/path/to/file.ts" ...></script>
- */
-export function transformScript(code, manifest) {
-  return code.replace(SCRIPT_REGEX, (_string, params) => {
-    const [src, ...extra] = params.split(',');
-    if (manifest) {
-      // eslint-disable-next-line prettier/prettier
-      return `<script src="${getManifestResource(src, manifest)}" ${extra.join(' ')}></script>`;
-    }
-    // eslint-disable-next-line prettier/prettier
-    return `<script src="${withLeadingSlash(src)}" ${extra.join(' ')} type="module"></script>`;
-  });
-}
-
-/**
  *
  * @param {string} code Code to transform
  * @param {Recode<string, any>} manifest Manifest file contents in case of production env
  * @returns Transformed code
  */
 export function transform(code, manifest = null) {
-  let transformed = transformScript(code, manifest);
-  transformed = transformSource(transformed, manifest);
+  let transformed = transformSource(code, manifest);
   transformed = transformContent(transformed, manifest);
   return transformed;
 }

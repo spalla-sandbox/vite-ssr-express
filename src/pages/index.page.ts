@@ -1,4 +1,9 @@
-import { definePageMeta, definePage } from '../page';
+import {
+  definePageMeta,
+  definePage,
+  definePageScripts,
+  definePageStyles,
+} from '../page';
 
 function Index() {
   definePageMeta({
@@ -10,17 +15,31 @@ function Index() {
     twitterCard: 'summary_large_image',
   });
 
-  return {
-    head: [
-      `@script(src/assets/scripts/index.script.ts, defer)`,
-      `<style type="text/css">@content(src/assets/styles/base.css)</style>`,
-    ],
-    body: `
-      <h1>Index</h1>
-      <button type="button">Botão 0</button>
-      <img src="@source(src/assets/images/placeholder.gif)" alt="texto" />
-    `,
-  };
+  definePageScripts([
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': '',
+      }),
+    },
+    {
+      src: '@source(src/assets/scripts/index.script.ts)',
+      defer: true,
+      tagPosition: 'bodyClose',
+    },
+  ]);
+
+  definePageStyles([
+    {
+      innerHTML: '@content(src/assets/styles/base.css)',
+    },
+  ]);
+
+  return `
+    <h1>Index</h1>
+    <button type="button">Botão 0</button>
+    <img src="@source(src/assets/images/placeholder.gif)" alt="texto" />
+  `;
 }
 
 export default definePage(Index);

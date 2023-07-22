@@ -1,8 +1,8 @@
 import { renderSSRHead } from '@unhead/ssr';
 import { createHead } from 'unhead';
-import { definePageHead } from './page';
+import { definePageHead, definePageMeta, definePageScripts } from './page';
 import getRouter from './router';
-import { Page, PageContext } from './types';
+import { Page, PageContent, PageContext } from './types';
 
 function renderSnippet(snippet: string | string[]) {
   if (Array.isArray(snippet)) return snippet.join('\n');
@@ -12,7 +12,8 @@ function renderSnippet(snippet: string | string[]) {
 /**
  * Setup default values for all pages rendered
  */
-function setupDefaults() {
+async function setupDefaults() {
+  // Setup default attributes and meta tags and tags
   definePageHead({
     htmlAttrs: {
       lang: 'pt',
@@ -23,6 +24,19 @@ function setupDefaults() {
     ],
     titleTemplate: 'POC - %s',
     title: 'Vite + Express + SSR',
+  });
+
+  // Setup default scripts
+  definePageScripts([
+    {
+      src: 'https://analytics.com',
+      defer: true,
+    },
+  ]);
+
+  // Setup default meta tags
+  definePageMeta({
+    ogDescription: 'Uma POC',
   });
 }
 
@@ -45,7 +59,19 @@ export async function render(url: string, context: PageContext) {
   if (!content) return null;
 
   // Get the page contents
-  const { head, body, footer } = content;
+  const pageContent: PageContent = {
+    head: '',
+    body: '',
+    footer: '',
+  };
+
+  if (typeof content === 'string') {
+    pageContent.body = content;
+  } else {
+    pageContent.head = content.head;
+    pageContent.body = content.body;
+    pageContent.footer = content.footer;
+  }
 
   // Get the head and html/body attrs contents
   const unheadPayload = await renderSSRHead(unhead);
@@ -55,12 +81,13 @@ export async function render(url: string, context: PageContext) {
     <!DOCTYPE html>
     <html ${unheadPayload.htmlAttrs}>
       <head>
-        ${renderSnippet(head)}
+        ${renderSnippet(pageContent.head)}
         ${unheadPayload.headTags}
       </head>
       <body ${unheadPayload.bodyAttrs}>
-        ${renderSnippet(body)}
-        ${renderSnippet(footer)}
+        ${renderSnippet(pageContent.body)}
+        ${renderSnippet(pageContent.footer)}
+        ${unheadPayload.bodyTags}
       </body>
     </html>
   `;
