@@ -1,7 +1,10 @@
 import { definePage } from '../../../page';
 import Header from './components/header';
 
-export default definePage(({ teste }) => ({
+type PageParams = {
+  teste: string;
+};
+export default definePage(({ teste }: PageParams) => ({
   head: `<style>@content(src/pages/[teste]/rota/style.css)</style>`,
   body: `
       <div>
