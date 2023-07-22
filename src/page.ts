@@ -1,4 +1,7 @@
+import type { Head } from '@unhead/schema';
 import { withBase, withLeadingSlash, withoutTrailingSlash } from 'ufo';
+import { useServerHead, useServerSeoMeta } from 'unhead';
+import type { UseSeoMetaInput } from 'unhead';
 import { Page } from './types';
 
 export async function scanPages(prefix = '/') {
@@ -34,4 +37,12 @@ export function definePage(page: Page) {
 
 export function defineAuthPage(_page: Page) {
   return definePage((props, context) => context.res.redirect('/forbidden'));
+}
+
+export function definePageHead(data: Head) {
+  useServerHead(data);
+}
+
+export function definePageMeta(data: UseSeoMetaInput) {
+  useServerSeoMeta(data);
 }

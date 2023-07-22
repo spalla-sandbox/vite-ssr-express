@@ -1,8 +1,7 @@
-import { useServerSeoMeta } from 'unhead';
-import { definePage } from '../page';
+import { definePageMeta, definePage } from '../page';
 
 function Index() {
-  useServerSeoMeta({
+  definePageMeta({
     title: 'Seo',
     description: 'Um exemplo de nova aplicação',
     ogDescription: 'Ainda dá pra brincar',
@@ -10,6 +9,7 @@ function Index() {
     ogImage: 'https://example.com/image.png',
     twitterCard: 'summary_large_image',
   });
+
   return {
     head: [
       `@script(src/assets/scripts/index.script.ts, defer)`,

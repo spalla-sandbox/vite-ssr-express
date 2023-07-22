@@ -12,9 +12,7 @@ export interface Page {
 }
 
 export declare type PageContent = {
-  htmlAttributes?: TemplateValue;
   head?: TemplateValue;
-  bodyAttributes?: TemplateValue;
   body?: TemplateValue;
   footer?: TemplateValue;
 };

@@ -165,9 +165,7 @@ O que uma página pode retornar está descrito no `type PageContent` em `types.t
 
 ```ts
 export declare type PageContent = {
-  htmlAttributes?: TemplateValue; // Atributos adicionais a <html>
   head?: TemplateValue; // Conteúdo adicional a <head>
-  bodyAttributes?: TemplateValue; // Atributos adicionais ao <body>
   body?: TemplateValue; // Conteúdo do body
   footer?: TemplateValue; // Conteúdo adicional no final do <body> e antes do </body>
 }
