@@ -53,14 +53,50 @@ Foi criado um plugin que ajuda no build.
 
 Durante o build, o plugin busca pelo padrão de `@source(.*)` e `@content(.*)` nos arquivos de páginas para emitir os paths para o Rollup gerar os respectivos arquivos no bundle final do `client`
 
-## @source
+## @script
 
-Pra ajudar a usar JS que rodam do lado do navegador ou fazer referências a Imagens.
+Cria uma tag `<script>` no final da renderização da página. Deve ser usado apenas nos arquivos de páginas `*.pages.ts`
 
-Funciona como uma função: `@source(path, srcAttribute?)`
+Funciona como uma função: `@script(path, extraAttrs?)`
 
 - `path`: Caminho do arquivo a partir da raiz do projeto, então deve começar com `src/...`
-- `srcAttribute`: É opcional, para ajudar quando quiser usar outro atributo no elemento que não seja `src=""`, como `srcset` no caso de imagens
+- `extraAttrs?`: Qualquer valor aqui será adicionado como um atributo a tag `<script>`
+
+Exemplos:
+
+Se o código tiver:
+
+```ts
+`@script(src/script.ts)`
+`@script(src/script.ts, defer)`
+`@script(src/script.ts, async="true", defer)`
+```
+
+Em desenvolvimento, resultará em:
+
+```html
+<script src="/src/script.ts" />
+<script src="/src/script.ts" defer type="module" />
+<script src="/src/script.ts" async="true" defer type="module" />
+```
+
+Em produção, resultará em:
+
+```html
+<script src="/src/script.ts" />
+<script src="/src/script.ts" defer />
+<script src="/src/script.ts" async="true" defer />
+```
+
+> OBS: `type="module"` é adicionado automaticamente em desenvolvimento, mas não em produção. É necessário em desenvolvimento para o Vite trabalhar corretamente com os módulos.
+
+## @source
+
+Pra ajudar a usar assets como imagens e assets, que usam atributo `src=""`. Deve ser usado apenas nos arquivos de páginas `*.pages.ts`
+
+Funciona como uma função: `@source(path)`
+
+- `path`: Caminho do arquivo a partir da raiz do projeto, então deve começar com `src/...`
 
 > Em desenvolvimento, ao transformar, ele adiciona também o atributo `type="module"` se for um path para um arquivo TypeScript. Assim o Vite manipula corretamente pra gente
 
@@ -69,27 +105,18 @@ Exemplos:
 Se o código tiver:
 
 ```ts
-`<script @source(src/scripts/exemplo.ts)></script>`
-`<img @source(src/images/exemplo.png, srcset) />`
+`<img @source(src/images/exemplo.png) />`
 ```
 
-Em desenvolvimento, resultará:
+Resultará em:
 
 ```html
-<script src="/src/scripts/exemplo.ts" type="module"></script>
-<img srcset="/src/images/exemplo.png" />
-```
-
-Em produção, resultará:
-
-```html
-<script src="/assets/exemplo-4ig3t8.js"></script>
-<img srcset="/assets/images.png" />
+<img src="/src/images/exemplo.png" />
 ```
 
 ## @content
 
-Funciona como uma função: `@content(path)`
+Funciona como uma função: `@content(path)`. Deve ser usado apenas nos arquivos de páginas `*.pages.ts`.
 
 A ideia é simplesmente substituir pelo conteúdo de `path`. A princípio foi desenhado pra usar com CSS.
 

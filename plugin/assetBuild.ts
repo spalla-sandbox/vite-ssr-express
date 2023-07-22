@@ -1,5 +1,5 @@
 import { ConfigEnv, PluginOption } from 'vite';
-import { emitContents, emitSources } from './runtime/build/assets';
+import { emitContents, emitScripts, emitSources } from './runtime/build/assets';
 import { getPages } from './runtime/build/pages';
 
 /**
@@ -27,6 +27,7 @@ export default function assetBuild(): PluginOption {
     buildStart() {
       if (!envConfig.ssrBuild) {
         getPages().forEach(({ code }) => {
+          emitScripts(this, code);
           emitSources(this, code);
           emitContents(this, code);
         });

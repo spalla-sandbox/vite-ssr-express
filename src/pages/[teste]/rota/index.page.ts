@@ -12,5 +12,5 @@ export default definePage(({ teste }: PageParams) => ({
         <p>Rota com parametro interpolado: ${teste}</p>
       </div>
     `,
-  footer: `<script defer @source(src/pages/[teste]/rota/components/header.script.ts)></script>`,
+  footer: `@script(src/pages/[teste]/rota/components/header.script.ts, defer)`,
 }));
