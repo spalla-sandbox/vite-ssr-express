@@ -1,11 +1,9 @@
-import { defineConfig } from "vite";
-import VitePlugin from "./plugin";
+import { defineConfig } from 'vite';
+import VitePlugin from './plugin';
 
 export default defineConfig({
-  plugins: [
-    VitePlugin(),
-  ],
+  plugins: [VitePlugin()],
   build: {
     manifest: true,
   },
-})
+});

@@ -1,9 +1,9 @@
-import { defineAuthPage } from "../../page"
+import { defineAuthPage } from '../../page';
 
 function Index() {
   return {
-    body: `<h1>PArceiros</h1>`
-  }
+    body: `<h1>PArceiros</h1>`,
+  };
 }
 
-export default defineAuthPage(Index)
+export default defineAuthPage(Index);

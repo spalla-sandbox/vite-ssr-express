@@ -1,10 +1,10 @@
-import fs from 'fs'
-import path from 'node:path'
-import { withLeadingSlash } from 'ufo'
-import { isProduction } from './environment.js'
+import fs from 'fs';
+import path from 'node:path';
+import { withLeadingSlash } from 'ufo';
+import { isProduction } from './environment.js';
 
-const SOURCE_REGEX = /@source\((.*?)\)/gmi
-const CONTENT_REGEX = /@content\((.*?)\)/gmi
+const SOURCE_REGEX = /@source\((.*?)\)/gim;
+const CONTENT_REGEX = /@content\((.*?)\)/gim;
 
 /**
  * Transform @source(path/to/file.[ts|image])
@@ -15,12 +15,12 @@ const CONTENT_REGEX = /@content\((.*?)\)/gmi
  */
 export function transformSource(code, manifest) {
   return code.replace(SOURCE_REGEX, (_string, params) => {
-    const [src] = params.split(',')
+    const [src] = params.split(',');
     if (manifest[src].url) {
-      return `src="${withLeadingSlash(manifest[src].url)}"`
+      return `src="${withLeadingSlash(manifest[src].url)}"`;
     }
-    return `src="${withLeadingSlash(manifest[src].file)}"`
-  })
+    return `src="${withLeadingSlash(manifest[src].file)}"`;
+  });
 }
 
 /**
@@ -31,9 +31,12 @@ export function transformSource(code, manifest) {
  * @returns Replace with path/to/file-[hash].css content
  */
 export function transformContent(code, manifest) {
-  return code.replace(CONTENT_REGEX, (_string, src) => {
-    return fs.readFileSync(path.resolve('./output/client', manifest[src].file), 'utf-8')
-  })
+  return code.replace(CONTENT_REGEX, (_string, src) =>
+    fs.readFileSync(
+      path.resolve('./output/client', manifest[src].file),
+      'utf-8',
+    ),
+  );
 }
 
 /**
@@ -44,12 +47,14 @@ export function transformContent(code, manifest) {
  */
 export function transformDevSource(code) {
   return code.replace(SOURCE_REGEX, (_string, params) => {
-    const [src, srcAttr] = params.split(',')
+    const [src, srcAttr] = params.split(',');
     if (params.endsWith('.ts')) {
-      return `${srcAttr?.trim() || 'src'}="${withLeadingSlash(src)}" type="module"`
+      return `${srcAttr?.trim() || 'src'}="${withLeadingSlash(
+        src,
+      )}" type="module"`;
     }
-    return `${srcAttr?.trim() || 'src'}="${withLeadingSlash(src)}"`
-  })
+    return `${srcAttr?.trim() || 'src'}="${withLeadingSlash(src)}"`;
+  });
 }
 
 /**
@@ -58,24 +63,24 @@ export function transformDevSource(code) {
  * @returns Replace with path/to/file.css content
  */
 export function transformDevContent(code) {
-  return code.replace(CONTENT_REGEX, (_string, src) => {
-    return fs.readFileSync(src, 'utf-8')
-  })
+  return code.replace(CONTENT_REGEX, (_string, src) =>
+    fs.readFileSync(src, 'utf-8'),
+  );
 }
 
 /**
- * 
+ *
  * @param {string} code Code to transform
- * @param {Recode<string, any>} manifest Manifest file contents in case of production env 
+ * @param {Recode<string, any>} manifest Manifest file contents in case of production env
  * @returns Transformed code
  */
 export function transform(code, manifest = {}) {
   if (isProduction()) {
     let transformed = transformSource(code, manifest);
     transformed = transformContent(transformed, manifest);
-    return transformed
+    return transformed;
   }
   let transformed = transformDevSource(code);
   transformed = transformDevContent(transformed);
-  return transformed
+  return transformed;
 }

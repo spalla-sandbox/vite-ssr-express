@@ -1,9 +1,6 @@
-import { ConfigEnv, PluginOption } from 'vite'
-import { getPages } from './runtime/build/pages'
-import {
-  emitContents,
-  emitSources
-} from './runtime/build/assets'
+import { ConfigEnv, PluginOption } from 'vite';
+import { emitContents, emitSources } from './runtime/build/assets';
+import { getPages } from './runtime/build/pages';
 
 /**
  * Helps to emit assets to bundle on build step
@@ -16,21 +13,24 @@ export default function assetBuild(): PluginOption {
     enforce: 'post',
     apply: 'build',
     config(_, env) {
-      envConfig = env
+      envConfig = env;
     },
     options(options) {
       if (!envConfig.ssrBuild) {
-        options.input = undefined
-        return options
+        return {
+          ...options,
+          input: undefined,
+        };
       }
+      return null;
     },
     buildStart() {
       if (!envConfig.ssrBuild) {
         getPages().forEach(({ code }) => {
-          emitSources(this, code)
-          emitContents(this, code)
-        })
+          emitSources(this, code);
+          emitContents(this, code);
+        });
       }
     },
-  }
+  };
 }

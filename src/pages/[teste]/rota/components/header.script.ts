@@ -1,6 +1,6 @@
 function example() {
-  alert('Exemplo')
+  alert('Exemplo');
 }
 
-const btn = document.querySelector('button')
-btn.onclick = example
+const btn = document.querySelector('button');
+btn.onclick = example;

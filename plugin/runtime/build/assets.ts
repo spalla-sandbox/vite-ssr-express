@@ -1,37 +1,37 @@
-import fs from 'fs'
-import path from 'path'
-import { PluginContext } from 'rollup'
+import fs from 'fs';
+import path from 'path';
+import { PluginContext } from 'rollup';
 
-const SOURCE_REGEX = /@source\((.*?)\)/gmi
-const CONTENT_REGEX = /@content\((.*?)\)/gmi
-const ASSETS_EXT = ['.gif', '.jpg', '.jpeg', '.png', '.webp', '.mp4', '.mp3']
+const SOURCE_REGEX = /@source\((.*?)\)/gim;
+const CONTENT_REGEX = /@content\((.*?)\)/gim;
+const ASSETS_EXT = ['.gif', '.jpg', '.jpeg', '.png', '.webp', '.mp4', '.mp3'];
 
 export function emitSources(pluginContext: PluginContext, code: string) {
-  const assetsSrc = [...code.matchAll(SOURCE_REGEX)]
+  const assetsSrc = [...code.matchAll(SOURCE_REGEX)];
   assetsSrc.forEach(([_, params]) => {
-    const [src] = params.split(',')
+    const [src] = params.split(',');
     if (ASSETS_EXT.includes(path.extname(src))) {
       pluginContext.emitFile({
         source: fs.readFileSync(src),
         name: src,
         fileName: `assets/${path.basename(src)}`,
         type: 'asset',
-      })
+      });
     } else {
       pluginContext.emitFile({
         id: src,
         type: 'chunk',
-      })
+      });
     }
-  })
+  });
 }
 
 export function emitContents(pluginContext: PluginContext, code: string) {
-  const assetsSrc = [...code.matchAll(CONTENT_REGEX)]
+  const assetsSrc = [...code.matchAll(CONTENT_REGEX)];
   assetsSrc.forEach(([_, src]) => {
     pluginContext.emitFile({
       id: src,
       type: 'chunk',
-    })
-  })
+    });
+  });
 }

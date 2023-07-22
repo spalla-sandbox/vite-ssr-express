@@ -1,5 +1,5 @@
 export default function ForbiddenPage() {
   return {
-    body: `Acesso negado`
-  }
+    body: `Acesso negado`,
+  };
 }

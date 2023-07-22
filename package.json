@@ -13,7 +13,7 @@
     "build:server": "vite build --ssr src/main.ts --outDir output/server",
     "preview": "cross-env NODE_ENV=production node server",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@picocss/pico": "^1.5.10",
@@ -24,9 +24,11 @@
     "ufo": "^1.1.2"
   },
   "devDependencies": {
+    "@igorjacauna/eslint-config": "^0.3.3",
     "@types/express": "^4.17.17",
     "@types/node": "^20.2.5",
     "cross-env": "^7.0.3",
+    "eslint": "^8.45.0",
     "globby": "^13.2.2",
     "puppeteer": "^20.8.3",
     "supertest": "^6.3.3",

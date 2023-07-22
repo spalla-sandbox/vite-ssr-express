@@ -1,4 +1,4 @@
-import { ConfigEnv, PluginOption } from 'vite'
+import { ConfigEnv, PluginOption } from 'vite';
 
 /**
  * Helps to upload assets to a bucket
@@ -12,12 +12,12 @@ export default function uploadAssets(): PluginOption {
     enforce: 'post',
     apply: 'build',
     config(_, env) {
-      envConfig = env
+      envConfig = env;
     },
     writeBundle(_options, bundle) {
       if (!envConfig.ssrBuild && bundle['manifest.json']) {
         // upload do bucket files
       }
-    }
-  }
+    },
+  };
 }

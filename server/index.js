@@ -1,17 +1,18 @@
-import express from 'express'
-import { getPort } from './runtime/helpers/environment.js'
-import defineHandlers from './runtime/index.js'
+import express from 'express';
+import { getPort } from './runtime/helpers/environment.js';
+import defineHandlers from './runtime/index.js';
 
 // Server port
-const port = getPort()
+const port = getPort();
 
 // Create http server
-const app = express()
+const app = express();
 
 // Setup handlers
-defineHandlers(app)
+defineHandlers(app);
 
 // Start http server
 export const server = app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`)
-})
+  // eslint-disable-next-line no-console
+  console.log(`Server started at http://localhost:${port}`);
+});
