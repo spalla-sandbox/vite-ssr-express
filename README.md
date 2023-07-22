@@ -33,13 +33,13 @@ Em ambos ambientes, é usado um servidor Express. Diferenciando apenas a forma c
 
 O Vite é [plugado como um middleware](https://vitejs.dev/guide/api-javascript.html#createserver) do Express. Ele também [transforma o HTML](https://vitejs.dev/guide/api-plugin.html#transformindexhtml) renderizado onde vai injetar o script responsável pelo HMR
 
-É possível ver como no arquivo `server/runtime/handlers/devHandler.js`
+É possível ver como, no arquivo `server/runtime/handlers/devHandler.js`
 
 ## Produção
 
 O Vite faz o build tanto do código do servidor, como dos assets a serem usados pelas páginas como JavaScript, CSS, Imagens.
 
-Tudo criado no diretório `output/` para cada ambiente (`client` e `server`).
+Tudo é gerado no diretório `output/` para cada ambiente (`client` e `server`).
 
 Cada ambiente também tem um JSON `manifest.json` mapeando os arquivos gerados.
 
@@ -47,17 +47,77 @@ O `manifest.json` do `client` é usado pelo `server` para usar como referência 
 
 ## Plugin
 
-Foi criado um plugin que ajuda tanto no desenvolvimento como no build.
-
-### Desenvolvimento
-
-Durante desenvolvimento, o plugin busca pelo padrão `@source(path/para/asset.ts)` e subistitui por `src="/path/para/asset.ts"`. Ajudando assim o Vite a carregar corretamente o arquivo no navegador
-
-Também tem o `@content(path/para/asset.css)` onde ele simplesmente substitui pelo conteúdo de `path/para/asset.css`
+Foi criado um plugin que ajuda no build.
 
 ### Build
 
-Durante o build, o plugin busca pelo padrão de `@source(.*)` e `@content(.*)` para emitir os paths para o Rollup gerar os respectivos arquivos no bundle final do `client`
+Durante o build, o plugin busca pelo padrão de `@source(.*)` e `@content(.*)` nos arquivos de páginas para emitir os paths para o Rollup gerar os respectivos arquivos no bundle final do `client`
+
+## @source
+
+Pra ajudar a usar JS que rodam do lado do navegador ou fazer referências a Imagens.
+
+Funciona como uma função: `@source(path, srcAttribute?)`
+
+- `path`: Caminho do arquivo a partir da raiz do projeto, então deve começar com `src/...`
+- `srcAttribute`: É opcional, para ajudar quando quiser usar outro atributo no elemento que não seja `src=""`, como `srcset` no caso de imagens
+
+> Em desenvolvimento, ao transformar, ele adiciona também o atributo `type="module"` se for um path para um arquivo TypeScript. Assim o Vite manipula corretamente pra gente
+
+Exemplos:
+
+Se o código tiver:
+
+```ts
+`<script @source(src/scripts/exemplo.ts)></script>`
+`<img @source(src/images/exemplo.png, srcset) />
+```
+
+Em desenvolvimento, resultará:
+
+```ts
+`<script src="/src/scripts/exemplo.ts" type="module"></script>`
+`<img srcset="/src/images/exemplo.png" />
+```
+
+Em produção, resultará:
+
+```ts
+`<script src="/assets/exemplo-4ig3t8.js"></script>`
+`<img srcset="/assets/images.png" />
+```
+
+## @content
+
+Funciona como uma função: `@content(path)`
+
+A ideia é simplesmente substituir pelo conteúdo de `path`. A princípio foi desenhado pra usar com CSS.
+
+- `path`: Caminho do arquivo a ser lido
+
+Se o código tiver:
+
+```ts
+`<style type="text/css">@content(src/styles/main.css)</style>`
+```
+
+Em desenvolvimento, resultará:
+
+```ts
+`<style type="text/css">
+body {
+  padding: 8px;
+}
+</style>`
+```
+
+Em produção, resultará:
+
+```ts
+`<style type="text/css">
+body {padding: 8px;}
+</style>`
+```
 
 ## Rotas
 
@@ -104,4 +164,14 @@ export default definePage((params) => {
     body: `<h1>Hello ${params.slug}!</h1>`
   }
 })
+```
 
+## CSS
+
+O Vite já traz suporte nativo ao PostCSS. Pra saber mais, só conferir [aqui](https://vitejs.dev/guide/features.html#css) a documentação
+
+O uso de `@import` dentro dos arquivos `.css` devem usar o caminho desde a raiz do projeto, para não haver problemas durante desenvolvimento e build.
+
+```css
+@import '/src/assets/styles/base.css';
+```
