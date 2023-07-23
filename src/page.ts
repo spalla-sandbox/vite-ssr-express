@@ -48,8 +48,21 @@ export async function definePageMeta(data: UseSeoMetaInput) {
 }
 
 export async function definePageScripts(scripts: Script[]) {
+  const handleDev = scripts.map(script => {
+    if (
+      script.src?.toString().startsWith('@') &&
+      process.env.NODE_ENV !== 'production'
+    ) {
+      return {
+        ...script,
+        type: 'module',
+      };
+    }
+
+    return script;
+  });
   return useServerHead({
-    script: scripts,
+    script: handleDev,
   });
 }
 

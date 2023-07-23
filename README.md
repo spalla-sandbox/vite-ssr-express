@@ -59,46 +59,13 @@ São funções presente no arquivo `src/page.ts` que ajudam a construir as pági
 
 São baseadas no [Unhead](https://unhead.harlanzw.com/)
 
-## @script
+### Scripts
 
-Cria uma tag `<script>` no final da renderização da página. Deve ser usado apenas nos arquivos de páginas `*.pages.ts`
-
-Funciona como uma função: `@script(path, extraAttrs?)`
-
-- `path`: Caminho do arquivo a partir da raiz do projeto, então deve começar com `src/...`
-- `extraAttrs?`: Qualquer valor aqui será adicionado como um atributo a tag `<script>`
-
-Exemplos:
-
-Se o código tiver:
-
-```ts
-`@script(src/script.ts)`
-`@script(src/script.ts, defer)`
-`@script(src/script.ts, async="true", defer)`
-```
-
-Em desenvolvimento, resultará em:
-
-```html
-<script src="/src/script.ts" />
-<script src="/src/script.ts" defer type="module" />
-<script src="/src/script.ts" async="true" defer type="module" />
-```
-
-Em produção, resultará em:
-
-```html
-<script src="/src/script.ts" />
-<script src="/src/script.ts" defer />
-<script src="/src/script.ts" async="true" defer />
-```
-
-> OBS: `type="module"` é adicionado automaticamente em desenvolvimento, mas não em produção. É necessário em desenvolvimento para o Vite trabalhar corretamente com os módulos.
+Na função `definePageScripts()` o atributo `type="module"` é adicionado automaticamente em desenvolvimento, mas não em produção. É necessário em desenvolvimento para o Vite trabalhar corretamente com impmort dos módulos.
 
 ## @source
 
-Pra ajudar a usar assets como imagens e assets, que usam atributo `src=""`. Deve ser usado apenas nos arquivos de páginas `*.pages.ts`
+Pra ajudar a usar assets que usam atributo `src=""`. Deve ser usado apenas nos arquivos de páginas `*.pages.ts`
 
 Funciona como uma função: `@source(path)`
 
