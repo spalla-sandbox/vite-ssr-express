@@ -65,13 +65,11 @@ Na função `definePageScripts()` o atributo `type="module"` é adicionado autom
 
 ## @source
 
-Pra ajudar a usar assets que usam atributo `src=""`. Deve ser usado apenas nos arquivos de páginas `*.pages.ts`
+Pra ajudar a usar assets que usam atributo `src=""`.
 
 Funciona como uma função: `@source(path)`
 
 - `path`: Caminho do arquivo a partir da raiz do projeto, então deve começar com `src/...`
-
-> Em desenvolvimento, ao transformar, ele adiciona também o atributo `type="module"` se for um path para um arquivo TypeScript. Assim o Vite manipula corretamente pra gente
 
 Exemplos:
 
@@ -89,7 +87,7 @@ Resultará em:
 
 ## @content
 
-Funciona como uma função: `@content(path)`. Deve ser usado apenas nos arquivos de páginas `*.pages.ts`.
+Funciona como uma função: `@content(path)`.
 
 A ideia é simplesmente substituir pelo conteúdo de `path`. A princípio foi desenhado pra usar com CSS.
 

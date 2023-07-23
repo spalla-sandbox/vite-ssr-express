@@ -1,15 +1,15 @@
 import fs from 'fs';
 import path from 'node:path';
-import { withLeadingSlash } from 'ufo';
+import { withLeadingSlash, withTrailingSlash } from 'ufo';
+import { getCDNUrl } from './environment.js';
 
 const SOURCE_REGEX = /@source\((.*?)\)/gim;
 const CONTENT_REGEX = /@content\((.*?)\)/gim;
 
-function getManifestResource(src, manifest, leadingSlash = true) {
+function getManifestResource(src, manifest) {
   if (manifest[src].url) {
     return manifest[src].url;
   }
-  if (leadingSlash) return withLeadingSlash(manifest[src].file);
   return manifest[src].file;
 }
 
@@ -24,7 +24,10 @@ export function transformSource(code, manifest) {
   return code.replace(SOURCE_REGEX, (_string, params) => {
     const [src] = params.split(',');
     if (manifest) {
-      return getManifestResource(src, manifest);
+      return `${withTrailingSlash(getCDNUrl())}${getManifestResource(
+        src,
+        manifest,
+      )}`;
     }
     return withLeadingSlash(src);
   });
@@ -41,10 +44,7 @@ export function transformContent(code, manifest) {
   return code.replace(CONTENT_REGEX, (_string, src) => {
     if (manifest) {
       return fs.readFileSync(
-        path.resolve(
-          './output/client',
-          getManifestResource(src, manifest, false),
-        ),
+        path.resolve('./output/client', getManifestResource(src, manifest)),
         'utf-8',
       );
     }

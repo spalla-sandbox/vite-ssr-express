@@ -13,3 +13,7 @@ export function getBaseURL() {
 export function getPort() {
   return process.env.PORT || 5173;
 }
+
+export function getCDNUrl() {
+  return process.env.CDN_URL || 'http://localhost:4000';
+}

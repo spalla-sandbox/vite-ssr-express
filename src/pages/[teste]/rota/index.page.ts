@@ -11,12 +11,6 @@ export default definePage(({ teste }: PageParams) => {
     },
   ]);
 
-  definePageScripts([
-    {
-      src: '@source(src/pages/[teste]/rota/components/header.script.ts)',
-      defer: true,
-    },
-  ]);
   return {
     body: `
       <div>

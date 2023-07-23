@@ -1,4 +1,4 @@
-import express from 'express';
+import simulateCDN from '../cdnSimulator.js';
 import developmentHandler from './handlers/devHandler.js';
 import productionHandler from './handlers/prodHandler.js';
 import { isDevelopment, isProduction } from './helpers/environment.js';
@@ -13,7 +13,7 @@ export default async function defineHandlers(app) {
   }
 
   if (isProduction()) {
-    app.use('/assets', express.static('output/client/assets'));
+    simulateCDN();
     app.use('*', await productionHandler(app));
   }
 }
