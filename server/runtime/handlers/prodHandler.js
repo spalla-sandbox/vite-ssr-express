@@ -1,3 +1,4 @@
+import { minify } from 'html-minifier-terser';
 import fs from 'node:fs';
 import path from 'node:path';
 import { getBaseURL, isProduction } from '../helpers/environment.js';
@@ -31,7 +32,13 @@ export default async function productionHandler(app) {
       const html = await render(url, { req, res });
       if (!res.headersSent) {
         const transformed = transform(html, manifest);
-        res.set({ 'Content-Type': 'text/html' }).end(transformed);
+        const minified = await minify(transformed, {
+          removeComments: true,
+          collapseWhitespace: true,
+          collapseBooleanAttributes: true,
+          processScripts: ['application/ld+json'],
+        });
+        res.set({ 'Content-Type': 'text/html' }).end(minified);
       } else {
         next();
       }
