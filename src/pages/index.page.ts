@@ -1,3 +1,4 @@
+import { Button } from '../components/IndexPage/Button';
 import {
   definePageMeta,
   definePage,
@@ -36,8 +37,8 @@ function Index() {
   ]);
 
   return `
-    <h1>Index</h1>
-    <button type="button">Botão 0</button>
+    <h1>Index page at /</h1>
+    ${Button()}
     <img src="@source(src/assets/images/placeholder.gif)" alt="texto" />
   `;
 }

@@ -85,6 +85,7 @@ export async function render(url: string, context: PageContext) {
         ${unheadPayload.headTags}
       </head>
       <body ${unheadPayload.bodyAttrs}>
+        ${unheadPayload.bodyTagsOpen}
         ${renderSnippet(pageContent.body)}
         ${renderSnippet(pageContent.footer)}
         ${unheadPayload.bodyTags}

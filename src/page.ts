@@ -68,3 +68,7 @@ export async function definePageStyles(styles: Style[]) {
     style: styles,
   });
 }
+
+/** A alias to best fit when define in components */
+export const defineScripts = definePageScripts;
+export const defineStyles = definePageScripts;
