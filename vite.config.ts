@@ -5,8 +5,13 @@ export default defineConfig({
   plugins: [VitePlugin()],
   build: {
     manifest: true,
-    modulePreload: {
-      resolveDependencies: () => [],
+  },
+  experimental: {
+    renderBuiltUrl(filename, { hostType }) {
+      if (hostType === 'js') {
+        return filename.replace(/assets\//gim, './');
+      }
+      return filename;
     },
   },
 });
