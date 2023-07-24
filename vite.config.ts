@@ -5,5 +5,8 @@ export default defineConfig({
   plugins: [VitePlugin()],
   build: {
     manifest: true,
+    modulePreload: {
+      resolveDependencies: () => [],
+    },
   },
 });
