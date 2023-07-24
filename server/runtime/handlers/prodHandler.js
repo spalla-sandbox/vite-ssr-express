@@ -11,7 +11,7 @@ const manifest = isProduction()
         'utf-8',
       ),
     )
-  : '{}';
+  : {};
 
 /**
  * Handle prod envinronment requests
