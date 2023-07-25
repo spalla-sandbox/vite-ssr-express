@@ -1,4 +1,5 @@
 import { renderSSRHead } from '@unhead/ssr';
+import { renderSSR } from 'nano-jsx';
 import { createHead } from 'unhead';
 import { definePageHead, definePageMeta, definePageScripts } from './page';
 import getRouter from './router';
@@ -55,29 +56,15 @@ export async function render(url: string, context: PageContext) {
   const router = await getRouter();
   const match = router.lookup(`/${url}`);
 
-  // Dinamically import the page calling handler() function from router
-  const page: Page = await match.handler();
+  // Dinamically import the page calling import() function from router
+  // to import the page module
+  const page: Page = await match.import();
 
   // Execute the page function
   const content = await page(match.params, context);
 
   // If not returns content, maybe was a redirect
   if (!content) return null;
-
-  // Get the page contents
-  const pageContent: PageContent = {
-    head: '',
-    body: '',
-    footer: '',
-  };
-
-  if (typeof content === 'string') {
-    pageContent.body = content;
-  } else {
-    pageContent.head = content.head;
-    pageContent.body = content.body;
-    pageContent.footer = content.footer;
-  }
 
   // Get the head and html/body attrs contents
   const unheadPayload = await renderSSRHead(unhead);
@@ -87,13 +74,11 @@ export async function render(url: string, context: PageContext) {
     <!DOCTYPE html>
     <html ${unheadPayload.htmlAttrs}>
       <head>
-        ${renderSnippet(pageContent.head)}
         ${unheadPayload.headTags}
       </head>
       <body ${unheadPayload.bodyAttrs}>
         ${unheadPayload.bodyTagsOpen}
-        ${renderSnippet(pageContent.body)}
-        ${renderSnippet(pageContent.footer)}
+        ${content}
         ${unheadPayload.bodyTags}
       </body>
     </html>

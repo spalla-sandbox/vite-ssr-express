@@ -1,9 +1,15 @@
 import type { Head, Script, Style } from '@unhead/schema';
+import { renderSSR } from 'nano-jsx';
 import { withBase, withLeadingSlash, withoutTrailingSlash } from 'ufo';
 import { useServerHead, useServerSeoMeta } from 'unhead';
 import type { UseSeoMetaInput } from 'unhead';
-import { Page } from './types';
+import { Page, PageContext } from './types';
 
+/**
+ * Scan for all pages in application
+ * @param prefix Prefix for pages routes
+ * @returns Mapped pages with route and import function
+ */
 export async function scanPages(prefix = '/') {
   // Use import.meta.glob from vite, to track files dinamically imported
   // and later generate chunks on build
@@ -26,19 +32,42 @@ export async function scanPages(prefix = '/') {
 
     return {
       route,
-      handler: pages[file],
+      import: pages[file],
     };
   });
 }
 
-export function definePage(page: Page) {
-  return page;
+export async function definePage(page: Page) {
+  return async (params, context) => {
+    const toRender = await Promise.resolve(page(params, context));
+    return renderSSR(toRender);
+  };
 }
 
-export function defineAuthPage(_page: Page) {
-  return definePage((props, context) => context.res.redirect('/forbidden'));
+export async function defineAuthPage(page: Page) {
+  return definePage((params, context: PageContext) => {
+    const hasToken = context.req.headers.cookie.includes('token=1');
+    if (!hasToken) {
+      context.res.redirect('/negado');
+    }
+    return page(params, { ...context, extra: { hasToken } });
+  });
 }
 
+export async function defineGuestPage(page: Page) {
+  return definePage((params, context: PageContext) => {
+    if (context.req.headers.cookie.includes('token=1')) {
+      context.res.redirect('/');
+    }
+    return page(params, context);
+  });
+}
+
+/**
+ * Define page head tags
+ * @param data
+ * @returns
+ */
 export async function definePageHead(data: Head) {
   return useServerHead(data);
 }
@@ -71,4 +100,4 @@ export async function definePageStyles(styles: Style[]) {
 
 /** A alias to best fit when define in components */
 export const defineScripts = definePageScripts;
-export const defineStyles = definePageScripts;
+export const defineStyles = definePageStyles;

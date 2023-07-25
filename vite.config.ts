@@ -14,4 +14,9 @@ export default defineConfig({
       return filename;
     },
   },
+  esbuild: {
+    jsxFactory: 'h',
+    jsxFragment: 'Fragment',
+    jsxInject: `import { h } from "nano-jsx"; import { Fragment } from "nano-jsx";`,
+  },
 });
