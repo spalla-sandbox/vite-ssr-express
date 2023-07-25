@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Server } from 'node:http';
+import { waitFor } from 'pptr-testing-library';
 import puppeteer from 'puppeteer';
 import type { Browser, Page } from 'puppeteer';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
@@ -33,8 +34,11 @@ describe('basic', async () => {
     expect(text).toBe('Clicked 0 time(s)');
 
     await button.click();
-    text = await page.evaluate(btn => btn.textContent, button);
-    expect(text).toBe('Clicked 1 time(s)');
+
+    await waitFor(async () => {
+      text = await page.evaluate(btn => btn.textContent, button);
+      expect(text).toBe('Clicked 1 time(s)')
+    });
   }, 60_000);
 
   test('should redirect', async () => {

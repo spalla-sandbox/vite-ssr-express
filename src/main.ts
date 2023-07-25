@@ -24,12 +24,18 @@ async function setupDefaults() {
     ],
     titleTemplate: 'POC - %s',
     title: 'Vite + Express + SSR',
+    link: [
+      {
+        rel: 'icon',
+        href: 'data:,',
+      },
+    ],
   });
 
   // Setup default scripts
   definePageScripts([
     {
-      src: 'https://analytics.com',
+      src: 'https://google-analytics.com/analytics.js',
       defer: true,
     },
   ]);
