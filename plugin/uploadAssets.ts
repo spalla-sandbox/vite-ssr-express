@@ -1,4 +1,4 @@
-import { ConfigEnv, PluginOption } from 'vite';
+import { PluginOption } from 'vite';
 
 /**
  * Helps to upload assets to a bucket
@@ -6,16 +6,24 @@ import { ConfigEnv, PluginOption } from 'vite';
  * @returns Plugin configuration
  */
 export default function uploadAssets(): PluginOption {
-  let envConfig: ConfigEnv;
   return {
     name: 'vite-upload-plugin',
+    /**
+     * Make plugin run post others plugins
+     */
     enforce: 'post',
-    apply: 'build',
-    config(_, env) {
-      envConfig = env;
+    /**
+     * Run plugin only in build and in client build
+     */
+    apply(_, { command, ssrBuild }) {
+      return command === 'build' && !ssrBuild;
     },
+    /**
+     * When is writing the manifest.json
+     * Read and upload the files if necessary to CDN
+     */
     writeBundle(_options, bundle) {
-      if (!envConfig.ssrBuild && bundle['manifest.json']) {
+      if (bundle['manifest.json']) {
         // upload do bucket files
       }
     },
