@@ -6,12 +6,15 @@ export declare type PageContent =
   | Promise<() => string>
   | void;
 
-export interface Page {
-  (props?: Record<string, unknown>, context?: PageContext): PageContent;
-}
+export declare type PageParams = {
+  params: Record<string, unknown>;
+  query: Record<string, unknown>;
+};
 
 export declare type PageContext = {
   req: Request;
   res: Response;
   extra?: Record<string, unknown>;
 };
+
+export type Page = (params?: PageParams, context?: PageContext) => PageContent;

@@ -1,12 +1,7 @@
 import { definePage } from '../../../page';
 import MainTemplate from '../../../templates/MainTemplate';
 
-type PageProps = {
-  params: { slug: string };
-  query: Record<string, string>;
-};
-
-export default definePage(({ params, query }: PageProps) => () => (
+export default definePage(({ params, query }) => () => (
   <MainTemplate>
     <h1>Parametro: {params.slug}</h1>
     <h1>Query:</h1>

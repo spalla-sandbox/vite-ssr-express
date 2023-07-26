@@ -1,7 +1,7 @@
 import { definePageMeta, definePage } from '../page';
 import MainTemplate from '../templates/MainTemplate';
 
-async function IndexPage({ query }) {
+export default definePage(() => {
   definePageMeta({
     title: 'Seo',
     description: 'Um exemplo de nova aplicação',
@@ -118,6 +118,4 @@ async function IndexPage({ query }) {
       </div>
     </MainTemplate>
   );
-}
-
-export default definePage(IndexPage);
+});

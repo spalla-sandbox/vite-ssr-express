@@ -1,10 +1,11 @@
 import { definePage, definePageHead } from '../page';
 import MainTemplate from '../templates/MainTemplate';
 
-export default definePage(() => {
+export default definePage(tes => {
   definePageHead({
     title: 'Acesso negado',
   });
+  tes.params;
 
   return () => (
     <MainTemplate showHead={false}>

@@ -3,7 +3,7 @@ import { renderSSR } from 'nano-jsx';
 import { withBase, withLeadingSlash, withoutTrailingSlash } from 'ufo';
 import { useServerHead, useServerSeoMeta } from 'unhead';
 import type { UseSeoMetaInput } from 'unhead';
-import { Page, PageContext } from './types';
+import { Page, PageContext, PageParams } from './types';
 
 /**
  * Scan for all pages in application
@@ -38,14 +38,14 @@ export async function scanPages(prefix = '/') {
 }
 
 export async function definePage(page: Page) {
-  return async (params, context) => {
+  return async (params: PageParams, context: PageContext) => {
     const toRender = await Promise.resolve(page(params, context));
     return renderSSR(toRender);
   };
 }
 
 export async function defineAuthPage(page: Page) {
-  return definePage((params, context: PageContext) => {
+  return definePage((params: PageParams, context: PageContext) => {
     const hasToken = context.req.headers.cookie.includes('token=1');
     if (!hasToken) {
       context.res.redirect('/negado');
@@ -55,7 +55,7 @@ export async function defineAuthPage(page: Page) {
 }
 
 export async function defineGuestPage(page: Page) {
-  return definePage((params, context: PageContext) => {
+  return definePage((params: PageParams, context: PageContext) => {
     if (context.req.headers.cookie.includes('token=1')) {
       context.res.redirect('/');
     }
