@@ -51,6 +51,11 @@ export default function TopBar() {
               <li>
                 <a href='/restrito'>Acesso restrito</a>
               </li>
+              <li>
+                <a href='/com-parametro/xpto?search=query'>
+                  Página com parâmetros
+                </a>
+              </li>
             </ul>
           </details>
         </li>

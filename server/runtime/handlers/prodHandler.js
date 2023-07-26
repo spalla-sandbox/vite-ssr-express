@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { getBaseURL, isProduction } from '../helpers/environment.js';
 import { transform } from '../helpers/transform.js';
+import { parseURL } from 'ufo';
 
 const manifest = isProduction()
   ? JSON.parse(
@@ -25,11 +26,12 @@ export default async function productionHandler(app) {
 
   return async (req, res, next) => {
     try {
-      const url = req.originalUrl.replace(getBaseURL(), '');
+      const url = parseURL(req.originalUrl);
       const { render } = await import(
         path.resolve('.', 'output/server/main.js')
       );
-      const html = await render(url, { req, res });
+      const urlWithoutBase = url.pathname.replace(getBaseURL(), '');
+      const html = await render(urlWithoutBase, { req, res });
       if (!res.headersSent) {
         const transformed = transform(html, manifest);
         const minified = await minify(transformed, {

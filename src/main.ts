@@ -54,14 +54,21 @@ export async function render(url: string, context: PageContext) {
 
   // Create the router that will search and map all *.page.ts files
   const router = await getRouter();
-  const match = router.lookup(`/${url}`);
+
+  const match = router.lookup(url);
 
   // Dinamically import the page calling import() function from router
   // to import the page module
   const page: Page = await match.import();
 
   // Execute the page function
-  const content = await page(match.params, context);
+  const content = await page(
+    {
+      params: match.params,
+      query: context.req.query,
+    },
+    context,
+  );
 
   // If not returns content, maybe was a redirect
   if (!content) return null;

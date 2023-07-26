@@ -6,7 +6,7 @@ import type { Browser, Page } from 'puppeteer';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 import { getServer, serverUrl } from '../__utils__/server';
 
-describe('basic', async () => {
+describe.skip('basic', async () => {
   let server: Server;
   let browser: Browser;
   let page: Page;

@@ -1,7 +1,7 @@
 import { definePageMeta, definePage } from '../page';
 import MainTemplate from '../templates/MainTemplate';
 
-async function IndexPage() {
+async function IndexPage({ query }) {
   definePageMeta({
     title: 'Seo',
     description: 'Um exemplo de nova aplicação',
