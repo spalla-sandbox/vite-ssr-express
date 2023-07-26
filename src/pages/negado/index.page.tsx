@@ -1,5 +1,5 @@
-import { definePage, definePageHead } from '../page';
-import MainTemplate from '../templates/MainTemplate';
+import { definePage, definePageHead } from '../../page';
+import MainTemplate from '../../templates/MainTemplate';
 
 export default definePage(tes => {
   definePageHead({
