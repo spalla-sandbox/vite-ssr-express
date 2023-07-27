@@ -7,11 +7,11 @@
     "node": ">=18.2.0"
   },
   "scripts": {
-    "dev": "node server",
+    "dev": "node server --run",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --outDir output/client",
     "build:server": "vite build --ssr src/main.ts --outDir output/server",
-    "preview": "cross-env NODE_ENV=production node server",
+    "preview": "cross-env NODE_ENV=production node server --run",
     "test": "vitest",
     "lint": "eslint ."
   },

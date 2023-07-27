@@ -15,6 +15,7 @@ export default function LoginForm() {
         aria-label='Login'
         autocomplete='nickname'
         required
+        id='email'
       />
       <input
         type='password'
@@ -23,6 +24,7 @@ export default function LoginForm() {
         aria-label='Password'
         autocomplete='current-password'
         required
+        id='pass'
       />
       <fieldset>
         <label for='remember'>

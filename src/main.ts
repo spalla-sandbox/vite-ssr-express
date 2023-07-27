@@ -1,14 +1,8 @@
 import { renderSSRHead } from '@unhead/ssr';
-import { renderSSR } from 'nano-jsx';
 import { createHead } from 'unhead';
 import { definePageHead, definePageMeta, definePageScripts } from './page';
 import getRouter from './router';
-import { Page, PageContent, PageContext } from './types';
-
-function renderSnippet(snippet: string | string[]) {
-  if (Array.isArray(snippet)) return snippet.join('\n');
-  return snippet?.toString() || '';
-}
+import { Page, PageContext } from './types';
 
 /**
  * Setup default values for all pages rendered
@@ -57,6 +51,8 @@ export async function render(url: string, context: PageContext) {
 
   const match = router.lookup(url);
 
+  if (!match) return '';
+
   // Dinamically import the page calling import() function from router
   // to import the page module
   const page: Page = await match.import();
@@ -71,7 +67,7 @@ export async function render(url: string, context: PageContext) {
   );
 
   // If not returns content, maybe was a redirect
-  if (!content) return null;
+  if (!content) return '';
 
   // Get the head and html/body attrs contents
   const unheadPayload = await renderSSRHead(unhead);
