@@ -16,8 +16,8 @@ export function getServerPort() {
   return getPort();
 }
 
-export function serverUrl(p = '') {
-  return `http://localhost:${getServerPort()}${withLeadingSlash(p)}`;
+export function serverUrl(route = '') {
+  return `http://localhost:${getServerPort()}${withLeadingSlash(route)}`;
 }
 
 export async function startServer() {

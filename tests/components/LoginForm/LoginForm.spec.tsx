@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { renderComponent } from '../../__utils__/render';
 import { configureComponentServer } from '../../__utils__/server';
 import LoginForm from '../../../src/components/LoginForm';

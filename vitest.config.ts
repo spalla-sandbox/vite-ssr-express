@@ -6,11 +6,8 @@ export default defineConfig({
     forceRerunTriggers: ['**/src/**'],
   },
   esbuild: {
-    jsxFactory: 'h',
-    jsxFragment: 'Fragment',
     jsxInject: `
-      import { h } from "nano-jsx"; 
-      import { Fragment } from "nano-jsx";
+      import React from 'react';
     `,
   },
 });

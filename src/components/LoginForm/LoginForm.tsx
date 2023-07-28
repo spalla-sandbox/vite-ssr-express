@@ -13,7 +13,7 @@ export default function LoginForm() {
         name='login'
         placeholder='Login'
         aria-label='Login'
-        autocomplete='nickname'
+        autoComplete='nickname'
         required
         id='email'
       />
@@ -22,12 +22,12 @@ export default function LoginForm() {
         name='password'
         placeholder='Password'
         aria-label='Password'
-        autocomplete='current-password'
+        autoComplete='current-password'
         required
         id='pass'
       />
       <fieldset>
-        <label for='remember'>
+        <label htmlFor='remember'>
           <input type='checkbox' role='switch' id='remember' name='remember' />
           Remember me
         </label>
