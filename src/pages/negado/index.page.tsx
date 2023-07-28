@@ -7,9 +7,11 @@ export default definePage(tes => {
   });
   tes.params;
 
-  return () => (
-    <MainTemplate showHead={false}>
-      <h1>Acesso negado</h1>
-    </MainTemplate>
-  );
+  return function NotAllowed() {
+    return (
+      <MainTemplate showHead={false}>
+        <h1>Acesso negado</h1>
+      </MainTemplate>
+    );
+  };
 });

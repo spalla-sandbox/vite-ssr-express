@@ -1,3 +1,4 @@
+import type { Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import path from 'node:path';
 import puppeteer from 'puppeteer';
@@ -7,7 +8,7 @@ import { afterAll } from 'vitest';
 import { start } from '../../server';
 import { getPort } from '../../server/runtime/helpers/environment';
 
-export function getServer() {
+export function getServer(): Server {
   return start();
 }
 
@@ -28,6 +29,10 @@ export async function startServer() {
   return vite;
 }
 
+/**
+ * Run the main appliction server in dev mode
+ * @returns Page puppeteer instance and Express server instance
+ */
 export async function configurePageServer() {
   const server = getServer();
   const browser = await puppeteer.launch({ headless: 'new' });
@@ -44,6 +49,11 @@ export async function configurePageServer() {
   return { page, server };
 }
 
+/**
+ * Run a Vite Dev Server thats render only the component
+ * @param showConsole show console messages from client
+ * @returns Page puppeteer instance and Vite Dev Server instance
+ */
 export async function configureComponentServer(showConsole = false) {
   const server = await startServer();
   const browser = await puppeteer.launch({ headless: 'new' });

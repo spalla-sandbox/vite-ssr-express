@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import type { Head, Script, Style } from '@unhead/schema';
-import { renderSSR } from 'nano-jsx';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { withBase, withLeadingSlash, withoutTrailingSlash } from 'ufo';
 import { useServerHead, useServerSeoMeta } from 'unhead';
 import type { UseSeoMetaInput } from 'unhead';
@@ -37,15 +38,15 @@ export async function scanPages(prefix = '/') {
   });
 }
 
-export async function definePage(page: Page) {
-  return async (params: PageParams, context: PageContext) => {
-    const toRender = await Promise.resolve(page(params, context));
-    return renderSSR(toRender);
+export async function definePage<T>(page: Page<T>) {
+  return async (params: PageParams<T>, context: PageContext) => {
+    const ToRender = await Promise.resolve(page(params, context));
+    return renderToStaticMarkup(<ToRender />);
   };
 }
 
-export async function defineAuthPage(page: Page) {
-  return definePage((params: PageParams, context: PageContext) => {
+export async function defineAuthPage<T>(page: Page<T>) {
+  return definePage<T>((params: PageParams<T>, context: PageContext) => {
     const hasToken = context.req.headers.cookie.includes('token=1');
     if (!hasToken) {
       context.res.redirect('/negado');
@@ -54,8 +55,8 @@ export async function defineAuthPage(page: Page) {
   });
 }
 
-export async function defineGuestPage(page: Page) {
-  return definePage((params: PageParams, context: PageContext) => {
+export async function defineGuestPage<T>(page: Page<T>) {
+  return definePage<T>((params: PageParams<T>, context: PageContext) => {
     if (context.req.headers.cookie.includes('token=1')) {
       context.res.redirect('/');
     }

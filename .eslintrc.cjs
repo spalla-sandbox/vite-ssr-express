@@ -1,5 +1,5 @@
 module.exports = {
-  extends: '@igorjacauna/eslint-config-typescript',
+  extends: '@igorjacauna/eslint-config-react',
   rules: {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
@@ -10,6 +10,9 @@ module.exports = {
         caughtErrorsIgnorePattern: '^_',
       },
     ],
+    // No need since use of Typescript
+    'react/prop-types': 'off',
+    'react/require-default-props': 'off',
   },
   overrides: [
     {

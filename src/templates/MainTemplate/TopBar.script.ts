@@ -1,11 +1,11 @@
 import Cookie from 'js-cookie';
 
-document.querySelector<HTMLButtonElement>('[btn-id="brand"').onclick = e => {
+document.querySelector<HTMLButtonElement>('[data-id="brand"').onclick = e => {
   e.preventDefault();
   console.log('Click', e.target);
 };
 
-document.querySelector<HTMLButtonElement>('[btn="logout"').onclick = e => {
+document.querySelector<HTMLButtonElement>('[data-id="logout"').onclick = e => {
   e.preventDefault();
   console.log('logout');
   Cookie.remove('token');
@@ -14,7 +14,7 @@ document.querySelector<HTMLButtonElement>('[btn="logout"').onclick = e => {
 
 if (Cookie.get('token')) {
   document
-    .querySelector<HTMLButtonElement>('[btn="logout"')
+    .querySelector<HTMLButtonElement>('[data-id="logout"')
     .classList.remove('none');
 }
 

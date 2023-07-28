@@ -1,10 +1,11 @@
+import { ReactNode } from 'react';
 import { defineScripts, defineStyles } from '../../page';
 import { Footer } from './components/Footer';
 import Header from './components/Header';
 import TopBar from './components/TopBar';
 
 type MainTemplateProps = {
-  children: any[];
+  children: ReactNode | ReactNode[];
   showHead?: boolean;
 };
 
@@ -25,11 +26,11 @@ export default function MainTemplate({
   ]);
   return (
     <section>
-      <div class='hero' data-theme='dark'>
+      <div className='hero' data-theme='dark'>
         <TopBar />
         {showHead && <Header />}
       </div>
-      <main class='container'>{children}</main>
+      <main className='container'>{children}</main>
       <Footer />
     </section>
   );

@@ -6,9 +6,11 @@ import MainTemplate from '../templates/MainTemplate';
  */
 export default definePage((_, context) => {
   context.res.status(404);
-  return () => (
-    <MainTemplate>
-      <h1>Not Found</h1>
-    </MainTemplate>
-  );
+  return function NotFound() {
+    return (
+      <MainTemplate>
+        <h1>Not Found</h1>
+      </MainTemplate>
+    );
+  };
 });

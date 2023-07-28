@@ -1,35 +1,35 @@
 export default function TopBar() {
   return (
-    <nav class='container-fluid'>
+    <nav className='container-fluid'>
       <ul>
         <li>
-          <a href='./' class='contrast' btn-id='brand'>
+          <a href='./' className='contrast' data-id='brand'>
             <strong>Brand</strong>
           </a>
         </li>
       </ul>
       <ul>
-        <button btn='logout' class='contrast none'>
+        <button type='button' data-id='logout' className='contrast none'>
           Logout
         </button>
         <li>
           <details role='list' dir='rtl'>
-            <summary aria-haspopup='listbox' role='link' class='contrast'>
+            <summary aria-haspopup='listbox' role='link' className='contrast'>
               Temas
             </summary>
             <ul role='listbox'>
               <li>
-                <a href='#' data-theme-switcher='auto'>
+                <a href='/' data-theme-switcher='auto'>
                   Auto
                 </a>
               </li>
               <li>
-                <a href='#' data-theme-switcher='light'>
+                <a href='/' data-theme-switcher='light'>
                   Light
                 </a>
               </li>
               <li>
-                <a href='#' data-theme-switcher='dark'>
+                <a href='/' data-theme-switcher='dark'>
                   Dark
                 </a>
               </li>
@@ -38,7 +38,7 @@ export default function TopBar() {
         </li>
         <li>
           <details role='list' dir='rtl'>
-            <summary aria-haspopup='listbox' role='link' class='contrast'>
+            <summary aria-haspopup='listbox' role='link' className='contrast'>
               Exemplos
             </summary>
             <ul role='listbox'>

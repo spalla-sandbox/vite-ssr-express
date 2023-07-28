@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer class='container'>
+    <footer className='container'>
       <small>
         Built with <a href='https://picocss.com'>Pico</a> •
         <a href='https://github.com/picocss/examples/tree/master/v1-company/'>

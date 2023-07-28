@@ -32,7 +32,7 @@ export default function LoginForm() {
           Remember me
         </label>
       </fieldset>
-      <button type='submit' class='contrast'>
+      <button type='submit' className='contrast'>
         Login
       </button>
     </form>

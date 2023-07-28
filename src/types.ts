@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
+import React from 'react';
+import type { QueryObject } from 'ufo';
 
 export declare type PageContent =
-  | string
-  | (() => string)
-  | Promise<() => string>
-  | void;
+  | (() => React.JSX.Element)
+  | Promise<() => React.JSX.Element>;
 
-export declare type PageParams = {
-  params: Record<string, unknown>;
-  query: Record<string, unknown>;
+export declare type PageParams<T> = {
+  params: T;
+  query: QueryObject;
 };
 
 export declare type PageContext = {
@@ -17,4 +17,7 @@ export declare type PageContext = {
   extra?: Record<string, unknown>;
 };
 
-export type Page = (params?: PageParams, context?: PageContext) => PageContent;
+export type Page<T> = (
+  params?: PageParams<T>,
+  context?: PageContext,
+) => PageContent;

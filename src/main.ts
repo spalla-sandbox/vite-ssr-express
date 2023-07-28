@@ -55,7 +55,7 @@ export async function render(url: string, context: PageContext) {
 
   // Dinamically import the page calling import() function from router
   // to import the page module
-  const page: Page = await match.import();
+  const page: Page<unknown> = await match.import();
 
   // Execute the page function
   const content = await page(
