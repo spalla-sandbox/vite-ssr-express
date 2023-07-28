@@ -41,6 +41,7 @@ export async function configurePageServer() {
   afterAll(async () => {
     await browser.close();
     await new Promise<void>((resolve, reject) => {
+      if (!server.listening) resolve();
       server.closeAllConnections();
       server.close(error => (error ? reject(error) : resolve()));
     });

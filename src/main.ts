@@ -51,7 +51,10 @@ export async function render(url: string, context: PageContext) {
 
   const match = router.lookup(url);
 
-  if (!match) return '';
+  if (match.redirect) {
+    context.res.redirect(match.status || 302, match.redirect);
+    return '';
+  }
 
   // Dinamically import the page calling import() function from router
   // to import the page module
