@@ -1,7 +1,6 @@
 import path from 'node:path';
-import { parseURL } from 'ufo';
 import { getBaseURL } from '../helpers/environment.js';
-import { transform } from '../helpers/transform.js';
+import executeRenderer from '../helpers/renderer.js';
 
 /**
  * Handle dev envinronment requests
@@ -21,20 +20,12 @@ export default async function developmentHandler(app) {
 
   return async (req, res, next) => {
     try {
-      const url = parseURL(req.originalUrl);
-      const { render } = await vite.ssrLoadModule(
-        path.resolve('.', 'src/main.ts'),
-      );
-      const urlWithoutBase = url.pathname.replace(getBaseURL(), '');
-      const page = await render(urlWithoutBase, { req, res });
+      const entryPointPath = path.resolve('.', 'src/main.ts');
+      const { render } = await vite.ssrLoadModule(entryPointPath);
+      const content = await executeRenderer(render, { req, res, vite });
 
-      if (!res.headersSent) {
-        const transformed = transform(page);
-        const html = await vite.transformIndexHtml(
-          url.pathname,
-          transformed || '',
-        );
-        res.set({ 'Content-Type': 'text/html' }).end(html);
+      if (content) {
+        res.set({ 'Content-Type': 'text/html' }).end(content);
       } else {
         next();
       }
