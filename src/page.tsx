@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Head, Script, Style } from '@unhead/schema';
 import { renderToStaticMarkup } from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
 import { withBase, withLeadingSlash, withoutTrailingSlash } from 'ufo';
 import { useServerHead, useServerSeoMeta } from 'unhead';
 import type { UseSeoMetaInput } from 'unhead';
+import Theme from './themes';
 import { Page, PageContext, PageParams } from './types';
 
 /**
@@ -40,8 +42,18 @@ export async function scanPages(prefix = '/') {
 
 export async function definePage<T>(page: Page<T>) {
   return async (params: PageParams<T>, context: PageContext) => {
+    const sheet = new ServerStyleSheet();
     const ToRender = await Promise.resolve(page(params, context));
-    return renderToStaticMarkup(<ToRender />);
+    const withStyles = sheet.collectStyles(
+      <Theme>
+        <ToRender />
+      </Theme>,
+    );
+
+    const content: string = renderToStaticMarkup(withStyles);
+    const styles = sheet.getStyleTags();
+    sheet.seal();
+    return { content, styles };
   };
 }
 

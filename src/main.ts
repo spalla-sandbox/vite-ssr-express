@@ -2,7 +2,7 @@ import { renderSSRHead } from '@unhead/ssr';
 import { createHead } from 'unhead';
 import { definePageHead, definePageMeta, definePageScripts } from './page';
 import getRouter from './router';
-import { Page, PageContext } from './types';
+import { PageContext } from './types';
 
 /**
  * Setup default values for all pages rendered
@@ -58,10 +58,10 @@ export async function render(url: string, context: PageContext) {
 
   // Dinamically import the page calling import() function from router
   // to import the page module
-  const page: Page<unknown> = await match.import();
+  const page = await match.import();
 
   // Execute the page function
-  const content = await page(
+  const { content, styles }: { content: string; styles: string } = await page(
     {
       params: match.params,
       query: context.req.query,
@@ -81,6 +81,7 @@ export async function render(url: string, context: PageContext) {
     <html ${unheadPayload.htmlAttrs}>
       <head>
         ${unheadPayload.headTags}
+        ${styles}
       </head>
       <body ${unheadPayload.bodyAttrs}>
         ${unheadPayload.bodyTagsOpen}

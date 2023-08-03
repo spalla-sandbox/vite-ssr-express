@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { defineScripts, defineStyles } from '../../page';
 import { Footer } from './components/Footer';
 import Header from './components/Header';
-import TopBar from './components/TopBar';
+import TopBar from './components/TopBar/TopBar';
 
 type MainTemplateProps = {
   children: ReactNode | ReactNode[];

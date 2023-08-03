@@ -1,0 +1,16 @@
+export default {
+  'spacing-00': '0px',
+  'spacing-02': '2px',
+  'spacing-04': '4px',
+  'spacing-08': '8px',
+  'spacing-12': '12px',
+  'spacing-16': '16px',
+  'spacing-20': '20px',
+  'spacing-24': '24px',
+  'spacing-28': '28px',
+  'spacing-32': '32px',
+  'spacing-36': '36px',
+  'spacing-40': '40px',
+  'spacing-48': '48px',
+  'spacing-64': '64px',
+};

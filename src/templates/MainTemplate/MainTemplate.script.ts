@@ -1,4 +1,4 @@
 setTimeout(() => {
   import('./TopBar.script');
   import('./ThemeSwitcher.script');
-}, 1000);
+}, 500);

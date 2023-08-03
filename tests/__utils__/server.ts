@@ -60,7 +60,7 @@ export async function configureComponentServer(showConsole = false) {
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
   const address = server.httpServer.address() as AddressInfo;
-  await page.goto(`http://${address.address}:${address.port}`);
+  await page.goto(`http://localhost:${address.port}`);
 
   if (showConsole) {
     page.on('console', msg =>
