@@ -26,8 +26,8 @@
     "radix3": "1.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "styled-components": "^6.0.5",
-    "styled-system": "^5.1.5",
+    "styled-components": "6.0.5",
+    "styled-system": "5.1.5",
     "ufo": "1.1.2",
     "unhead": "1.1.32"
   },
